@@ -13,7 +13,6 @@ void IndigoMainRoutine(void);
 void IndigoMainUIRoutine(void);
 
 /* ui driver */
-void IndigoShowSplash(void);
 void IndigoShowMain(void);
 
 #endif

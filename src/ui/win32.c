@@ -8,8 +8,6 @@ static HINSTANCE hInst;
 static HANDLE	 hUIThread;
 static HANDLE	 hUIReady;
 
-static void _IndigoShowSplash(BOOL splash);
-
 static void ShowBitmapSize(HDC hdc, const char* name, int x, int y, int w, int h) {
 	HBITMAP hBitmap = LoadBitmap(hInst, name);
 	BITMAP	bmp;
@@ -51,7 +49,30 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
 		if(m == ID_MENU_FILE_QUIT) DestroyWindow(hWnd);
-		if(m == ID_MENU_HELP_VERSION) _IndigoShowSplash(FALSE);
+		if(m == ID_MENU_HELP_VERSION){
+			MSGBOXPARAMS p;
+			char buf[512];
+			buf[0] = 0;
+
+			sprintf(buf + strlen(buf), "Indigo, Email/NNTP client\r\n");
+			sprintf(buf + strlen(buf), "Version %s\r\n", VERSION);
+			sprintf(buf + strlen(buf), "Copyright (C) 2025 Nishi\r\n");
+			sprintf(buf + strlen(buf), "\r\n");
+			sprintf(buf + strlen(buf), "https://github.com/nishiowo/indigo");
+
+			p.cbSize = sizeof(p);
+			p.hwndOwner = hWnd;
+			p.hInstance = hInst;
+			p.lpszText = buf;
+			p.lpszCaption = "Version";
+			p.dwStyle = MB_USERICON | MB_OK;
+			p.lpszIcon = "INDIGO";
+			p.dwContextHelpId = 0;
+			p.lpfnMsgBoxCallback = NULL;
+			p.dwLanguageId = 0;
+
+			MessageBoxIndirect(&p);
+		}
 	} else if(msg == WM_DESTROY) {
 		main_t* m = (main_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
@@ -174,35 +195,6 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 
 	WaitForSingleObject(hUIThread, INFINITE);
 }
-
-static void _IndigoShowSplash(BOOL splash) {
-	HWND	  desk = GetDesktopWindow();
-	RECT	  rc;
-	HWND	  hWnd;
-	const int ww = 640;
-	const int wh = 400;
-	int	  dw;
-	int	  dh;
-
-	GetClientRect(desk, &rc);
-	dw = rc.right - rc.left;
-	dh = rc.bottom - rc.top;
-
-	if(splash) {
-		hWnd = CreateWindowEx(WS_EX_TOPMOST, "IndigoSplash", "Indigo Splash", WS_POPUP, (dw - ww) / 2, (dh - wh) / 2, ww, wh, NULL, 0, hInst, NULL);
-	} else {
-		SetRect(&rc, 0, 0, ww, wh);
-		AdjustWindowRect(&rc, WS_CAPTION, FALSE);
-
-		hWnd = CreateWindowEx(WS_EX_TOPMOST, "IndigoSplash", "Indigo Version", WS_CAPTION, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, 0, hInst, NULL);
-	}
-	if(hWnd == NULL) return;
-
-	ShowWindow(hWnd, SW_NORMAL);
-	UpdateWindow(hWnd);
-}
-
-void IndigoShowSplash(void) { _IndigoShowSplash(TRUE); }
 
 void IndigoShowMain(void) {
 	HWND	  hWnd;
