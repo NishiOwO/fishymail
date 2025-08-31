@@ -5,10 +5,18 @@
 #include <fishymail.h>
 #include <pthread.h>
 
+#define APP_CLASS "fishymail"
+
 static pthread_t ui_thread;
 
 static Widget	    top, button;
+static XrmDatabase  rdb;
 static XtAppContext app;
+
+static char* fallback_resources[] = {
+    APP_CLASS "*fontList: -sony-fixed-medium-r-normal--0-0-100-100-c-0-iso8859-1",
+    NULL,
+};
 
 struct {
 	int    argc;
@@ -38,7 +46,8 @@ int main(int argc, char** argv) {
 }
 
 void FishyMailShowMain(void) {
-	top = XtVaAppInitialize(&app, args.argv[0], NULL, 0, &args.argc, args.argv, NULL, NULL);
+	top = XtVaAppInitialize(&app, APP_CLASS, NULL, 0,
+				&args.argc, args.argv, fallback_resources, NULL);
 
 	button = XmVaCreatePushButton(top, "hello", NULL);
 	XtManageChild(button);
