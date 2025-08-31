@@ -9,9 +9,10 @@ AlignConsecutiveDeclarations:
   Enabled: true
 IndentWidth: 8
 PointerAlignment: Left
-ColumnLimit: 1024
+ColumnLimit: 0
 AllowShortIfStatementsOnASingleLine: Always
 AllowShortBlocksOnASingleLine: Never
+AllowShortFunctionsOnASingleLine: Empty
 AllowShortLoopsOnASingleLine: true
 SpaceBeforeParens: Never
 AlignEscapedNewlines: DontAlign
