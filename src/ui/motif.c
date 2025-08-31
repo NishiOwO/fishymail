@@ -31,12 +31,14 @@ static void* ui_thread_routine(void* arg) {
 }
 
 int main(int argc, char** argv) {
+	int ret;
+
 	args.argc = argc;
 	args.argv = argv;
 
 	FishyMailMainRoutine();
 
-	int ret = pthread_create(&ui_thread, NULL, ui_thread_routine, NULL);
+	ret = pthread_create(&ui_thread, NULL, ui_thread_routine, NULL);
 	if(ret) {
 		fprintf(stderr, "pthread error\n");
 		return 1;

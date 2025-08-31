@@ -1,7 +1,8 @@
 /* $Id$ */
 
 #include <fishymail.h>
-#include <fishymailres.h>
+
+#include <stb_ds.h>
 
 #include <windows.h>
 #include <commctrl.h>
@@ -9,6 +10,28 @@
 static HINSTANCE hInst;
 static HANDLE	 hUIThread;
 static HANDLE	 hUIReady;
+static HMENU	 hMenu;
+
+typedef struct menu {
+	char* key;
+	int   value;
+} menu_t;
+
+static menu_t* menus = NULL;
+
+static int GetMenuFromName(const char* name) {
+	int ind = shgeti(menus, name);
+	if(ind == -1) return -1;
+
+	return menus[ind].value;
+}
+
+static int AllocateMenuFromName(const char* name) {
+	int v = 100 + shlen(menus);
+	shput(menus, name, v);
+
+	return v;
+}
 
 static void ShowBitmapSize(HDC hdc, const char* name, int x, int y, int w, int h) {
 	HBITMAP hBitmap = LoadBitmap(hInst, name);
@@ -52,8 +75,8 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		DestroyWindow(hWnd);
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
-		if(m == ID_MENU_FILE_QUIT) DestroyWindow(hWnd);
-		if(m == ID_MENU_HELP_VERSION) {
+		if(m == GetMenuFromName("FILE_QUIT")) DestroyWindow(hWnd);
+		if(m == GetMenuFromName("HELP_VERSION")) {
 			MSGBOXPARAMS p;
 			char	     buf[512];
 			buf[0] = 0;
@@ -89,6 +112,8 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		m->tree	  = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hWnd, 0, hInst, NULL);
 
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)m);
+		SetMenu(hWnd, hMenu);
+		DrawMenuBar(hWnd);
 	} else if(msg == WM_SIZE) {
 		main_t* m = (main_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
@@ -190,6 +215,9 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 	if(!InitClass("FishyMailMain", MainWndProc)) return 0;
 	if(!InitClass("FishyMailSplash", SplashWndProc)) return 0;
 
+	hMenu = CreateMenu();
+	sh_new_strdup(menus);
+
 	InitCommonControls();
 
 	FishyMailMainRoutine();
@@ -216,4 +244,36 @@ void FishyMailShowMain(void) {
 
 	ShowWindow(hWnd, SW_NORMAL);
 	UpdateWindow(hWnd);
+}
+
+static HMENU hPopupMenu;
+static char  PopupName[128];
+static int   PopupPosition = 0;
+void	     BeginPopup(const char* name, int help) {
+	sprintf(PopupName, "%s", name);
+
+	hPopupMenu = CreatePopupMenu();
+	AppendMenu(hMenu, MF_POPUP | MF_STRING, (UINT_PTR)hPopupMenu, name);
+
+	if(help) {
+		MENUITEMINFO mii;
+
+		mii.cbSize = sizeof(mii);
+		mii.fMask  = MIIM_FTYPE;
+		mii.fType  = MFT_RIGHTJUSTIFY | MFT_STRING;
+
+		SetMenuItemInfo(hMenu, PopupPosition, TRUE, &mii);
+	}
+
+	PopupPosition++;
+}
+
+void MenuItem(const char* name) {
+	char idname[128];
+	char tmp[128];
+
+	sprintf(tmp, "%s_%s", PopupName, name);
+	FishyMailSanitizeName(tmp, idname);
+
+	AppendMenu(hPopupMenu, MF_STRING, AllocateMenuFromName(idname), name);
 }

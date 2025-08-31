@@ -18,7 +18,7 @@ int yywrap(void){
 %start sequence
 
 %union {
-	char string[512];
+	char string[128];
 }
 
 %%
@@ -33,12 +33,16 @@ command		: SPACE command_body
 	 	| command_body;
 
 command_body	: POPUP SPACE STRING {
+	BeginPopup($<string>3, 0);
 }
 		| HELPPOPUP SPACE STRING {
+	BeginPopup($<string>3, 1);
 }
 		| MENUITEM SPACE STRING {
+	MenuItem($<string>3);
 }
 		| SET SPACE IDENTIFIER '=' IDENTIFIER {
+	/* ignore */
 }
 
 %%

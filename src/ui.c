@@ -23,7 +23,6 @@ const char* ui_text = \
 	"#\n" \
 	"\n" \
 	"Set Title=FishyMail\n" \
-	"Set ResourceHeader=include/fishymailres.h\n" \
 	"Set EmbedFile=src/ui.c\n" \
 	"\n" \
 	"Popup \"&File\"\n" \

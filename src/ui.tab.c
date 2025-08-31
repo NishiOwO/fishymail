@@ -38,7 +38,7 @@ int yywrap(void){
 #define YYSTYPE_IS_DECLARED 1
 #line 20 "src/ui.y"
 typedef union {
-	char string[512];
+	char string[128];
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
 #line 45 "y.tab.c"
@@ -984,28 +984,32 @@ yyreduce:
 case 7:
 #line 35 "src/ui.y"
 	{
+	BeginPopup(yystack.l_mark[0].string, 0);
 }
 #line 1 ""
 break;
 case 8:
-#line 37 "src/ui.y"
+#line 38 "src/ui.y"
 	{
+	BeginPopup(yystack.l_mark[0].string, 1);
 }
 #line 1 ""
 break;
 case 9:
-#line 39 "src/ui.y"
+#line 41 "src/ui.y"
 	{
+	MenuItem(yystack.l_mark[0].string);
 }
 #line 1 ""
 break;
 case 10:
-#line 41 "src/ui.y"
+#line 44 "src/ui.y"
 	{
+	/* ignore */
 }
 #line 1 ""
 break;
-#line 1009 "y.tab.c"
+#line 1013 "y.tab.c"
     default:
         break;
     }

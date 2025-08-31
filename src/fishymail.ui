@@ -15,7 +15,6 @@
 #
 
 Set Title=FishyMail
-Set ResourceHeader=include/fishymailres.h
 Set EmbedFile=src/ui.c
 
 Popup "&File"
