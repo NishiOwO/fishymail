@@ -7,7 +7,7 @@ foreach my $arg (@ARGV) {
     if ($arg =~ /^-l(.+)$/) {
         $cmdline = $cmdline . " $1.lib";
     }
-    elsif (not($arg =~ /\.res$/)) {
+    elsif (not($arg =~ /\.res$/) and not($arg =~ /^-W/)) {
         $cmdline = $cmdline . " $arg";
     }
 }

@@ -260,7 +260,8 @@ void BeginPopup(const char* name, int help) {
 		MENUITEMINFO mii;
 
 		mii.cbSize = sizeof(mii);
-		mii.fMask  = MIIM_FTYPE;
+		mii.fMask  = MIIM_TYPE;
+		mii.dwTypeData = (char*)name;
 		mii.fType  = MFT_RIGHTJUSTIFY | MFT_STRING;
 
 		SetMenuItemInfo(hMenu, PopupPosition, TRUE, &mii);
