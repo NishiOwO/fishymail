@@ -1,5 +1,19 @@
+# $Id$
 # FishyMail UI stuff, read tools/gui.pl to understand
 # vim: ft=text
+#
+# +-----+-------------------+
+# |     |     Mail list     |
+# |  T  |                   |
+# |  r  +-------------------+
+# |  e  |    Mail content   |
+# |  e  |                   |
+# |     |                   |
+# +-----+-------------------+
+# Should show only one screen instead of 2 panes for welcome screen
+# which should be located first in Tree.
+#
+
 Set Title=FishyMail
 Set IncludeHeader=fishymailres.h
 Set ResourceHeader=include/fishymailres.h

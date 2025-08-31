@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+# $Id$
 
 my %menus = ();
 my @menus_order = ();
