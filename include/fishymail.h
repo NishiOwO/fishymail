@@ -20,6 +20,7 @@ void FishyMailMainUIRoutine(void);
 
 /* util.c */
 void FishyMailSanitizeName(const char* from, char* to);
+void FishyMailRemoveSpecial(const char* from, char* to);
 
 /* ui driver */
 void FishyMailShowMain(void);
