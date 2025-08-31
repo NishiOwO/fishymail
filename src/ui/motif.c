@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 	args.argv = argv;
 
 	top = XtVaAppInitialize(&app, APP_CLASS, NULL, 0,
-				&args.argc, args.argv, fallback_resources, NULL);
+				&args.argc, args.argv, fallback_resources, XtNtitle, "FishyMail", NULL);
 
 	XtResizeWidget(top, 800, 600, 1);
 
@@ -101,7 +101,7 @@ void BeginPopup(const char* name, int help) {
 	popup_menu = XmCreatePulldownMenu(menubar, idname, NULL, 0);
 
 	str  = XmStringCreateLocalized(menuname);
-	menu = XmVaCreateCascadeButton(menubar, (char*)menuname,
+	menu = XmVaCreateCascadeButton(menubar, (char*)idname,
 				       XmNsubMenuId, popup_menu,
 				       XmNlabelString, str,
 				       XmNmnemonic, c,
@@ -139,7 +139,7 @@ void MenuItem(const char* name) {
 	FishyMailRemoveSpecial(tmp, menuname);
 
 	str = XmStringCreateLocalized(menuname);
-	w   = XmVaCreatePushButton(popup_menu, (char*)menuname,
+	w   = XmVaCreatePushButton(popup_menu, (char*)idname,
 				   XmNlabelString, str,
 				   XmNmnemonic, c,
 				   NULL);
