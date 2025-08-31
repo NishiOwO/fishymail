@@ -5,7 +5,7 @@ SRCS = `find include src "(" -name "*.c" -or -name "*.h" ")" -and -not -name "st
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
 
-CFLAGS = $(P_CFLAGS) -I include
+CFLAGS = $(P_CFLAGS) -I include -Wall -Wextra
 LDFLAGS = $(P_LDFLAGS)
 LIBS = $(P_LIBS)
 

@@ -10,7 +10,6 @@
 static pthread_t ui_thread;
 
 static Widget	    top, button;
-static XrmDatabase  rdb;
 static XtAppContext app;
 
 static char* fallback_resources[] = {
@@ -24,6 +23,8 @@ struct {
 } args;
 
 static void* ui_thread_routine(void* arg) {
+	(void)arg;
+
 	FishyMailMainUIRoutine();
 	XtAppMainLoop(app);
 	return NULL;
