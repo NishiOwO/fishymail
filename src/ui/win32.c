@@ -51,9 +51,9 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
 		if(m == ID_MENU_FILE_QUIT) DestroyWindow(hWnd);
-		if(m == ID_MENU_HELP_VERSION){
+		if(m == ID_MENU_HELP_VERSION) {
 			MSGBOXPARAMS p;
-			char buf[512];
+			char	     buf[512];
 			buf[0] = 0;
 
 			sprintf(buf + strlen(buf), "FishyMail, Email/NNTP client\r\n");
@@ -62,16 +62,16 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			sprintf(buf + strlen(buf), "\r\n");
 			sprintf(buf + strlen(buf), "https://github.com/nishiowo/fishymail");
 
-			p.cbSize = sizeof(p);
-			p.hwndOwner = hWnd;
-			p.hInstance = hInst;
-			p.lpszText = buf;
-			p.lpszCaption = "Version";
-			p.dwStyle = MB_USERICON | MB_OK;
-			p.lpszIcon = "FISHYMAIL";
-			p.dwContextHelpId = 0;
+			p.cbSize	     = sizeof(p);
+			p.hwndOwner	     = hWnd;
+			p.hInstance	     = hInst;
+			p.lpszText	     = buf;
+			p.lpszCaption	     = "Version";
+			p.dwStyle	     = MB_USERICON | MB_OK;
+			p.lpszIcon	     = "FISHYMAIL";
+			p.dwContextHelpId    = 0;
 			p.lpfnMsgBoxCallback = NULL;
-			p.dwLanguageId = 0;
+			p.dwLanguageId	     = 0;
 
 			MessageBoxIndirect(&p);
 		}
