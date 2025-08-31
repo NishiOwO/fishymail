@@ -1,6 +1,9 @@
 # $Id$
 
-SRCS = `find include src "(" -name "*.c" -or -name "*.h" ")" -and -not -name "stb_ds.h"`
+# format and propset files
+SRCS = `find include src -name "*.c" ! -name "ui.tab.c" ! -name "ui.yy.c" ! -name "ui.c"`
+SRCS_HEADERS = `find include src -name "*.h" ! -name "ui.tab.h"`
+PERL_SRCS = `find tools -name "*.pl"`
 
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
@@ -30,10 +33,11 @@ fishymail$(EXEC): $(OBJS)
 src/fishymail.res: src/fishymail.rc src/images/fishymail.ico
 
 format:
-	clang-format --verbose -i $(SRCS)
+	clang-format --verbose -i $(SRCS) $(SRCS_HEADERS)
+	perltidy -b -bext='/' --paren-tightness=2 $(PERL_SRCS)
 
 propset:
-	svn propset svn:keywords Id $(SRCS)
+	svn propset svn:keywords Id $(SRCS) $(SRCS_HEADERS)
 
 clean:
 	rm -f *.exe src/*.o src/*.res src/*/*.o fishymail
