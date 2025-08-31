@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
 	FishyMailMainRoutine();
 
 	ret = pthread_create(&ui_thread, NULL, ui_thread_routine, NULL);
-	if(ret) {
+	if(ret != 0) {
 		fprintf(stderr, "pthread error\n");
 		return 1;
 	}
