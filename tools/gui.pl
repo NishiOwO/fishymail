@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 # $Id$
 
+my $in = $ARGV[0];
 my %menus = ();
 my @menus_order = ();
 
@@ -51,7 +52,7 @@ sub args {
 	return @r;
 }
 
-open(IN, "<", "src/fishymail.ui") or die;
+open(IN, "<", "$in") or die;
 while(my $l = <IN>){
 	$l =~ s/\r?\n$//g;
 	$l =~ s/^[ \t]+//;
@@ -66,9 +67,9 @@ while(my $l = <IN>){
 			push(@menus_order, $al[1]);
 			$lastmenu = $al[1];
 		}elsif($al[0] eq "HelpPopup"){
-			$menus{$al[1]} = ();
+			$menus{"#$al[1]"} = ();
 			push(@menus_order, "#$al[1]");
-			$lastmenu = $al[1];
+			$lastmenu = "#$al[1]";
 		}elsif($al[0] eq "MenuItem"){
 			push(@{$menus{$lastmenu}}, $al[1]);
 		}elsif($al[0] eq "MenuSeparator"){
@@ -78,33 +79,29 @@ while(my $l = <IN>){
 }
 close(IN);
 
-open(OUT, ">", "src/gui.rc");
+printf("Generating $vars{EmbedFile}\n");
+
+open(OUT, ">", "$vars{EmbedFile}");
 banner();
-print OUT ("#include <winver.h>\n");
-print OUT ("\n");
-print OUT ("#include <$vars{IncludeHeader}>\n");
-print OUT ("\n");
-print OUT ("$vars{Title}Menu MENU {\n");
-foreach my $s (@menus_order){
-	my $flags = "";
-	if($s =~ s/^#//){
-		$flags = ", HELP";
-	}
-	print OUT ("\tPOPUP \"$s\"$flags {\n");
-	foreach my $i (@{$menus{$s}}){
-		if($i eq "%SEPARATOR"){
-			print OUT ("\t\tMENUITEM SEPARATOR\n");
-		}else{
-			my $id = make_id("menu_${s}_${i}");
-			print OUT ("\t\tMENUITEM \"$i\", $id\n");
-		}
-	}
-	print OUT ("\t}\n");
+print OUT ("#include <fishymail.h>\n");
+print OUT ("");
+print OUT ("const char* ui_text =");
+
+open(IN, "<", "$in");
+while(my $l = <IN>){
+	$l =~ s/\r?\n//g;
+	$l =~ s/\\/\\\\/g;
+	$l =~ s/"/\\"/g;
+	print OUT (" \\\n\t\"$l\\n\"");
 }
-print OUT ("}\n");
+print OUT (";\n");
+close(IN);
+
 close(OUT);
 
 my $incr = 100;
+
+printf("Generating $vars{ResourceHeader}\n");
 
 open(OUT, ">", "$vars{ResourceHeader}");
 banner();
@@ -121,3 +118,11 @@ foreach my $s (@menus_order){
 print OUT ("\n");
 print OUT ("#endif\n");
 close(OUT);
+
+print ("Running yacc/lex\n");
+system("yacc -d src/ui.y") == 0 or die;
+system("lex --nounistd src/ui.l") == 0 or die;
+
+rename("y.tab.c", "src/ui.tab.c");
+rename("y.tab.h", "include/ui.tab.h");
+rename("lex.yy.c", "src/ui.yy.c");

@@ -5,5 +5,3 @@
 #include <fishymailres.h>
 
 FISHYMAIL ICON "images/fishymail.ico"
-
-#include "gui.rc"

@@ -30,6 +30,8 @@ static DWORD WINAPI UIThread(LPVOID lp) {
 	BOOL bret;
 	MSG  msg;
 
+	(void)lp;
+
 	FishyMailMainUIRoutine();
 
 	SetEvent(hUIReady);
@@ -179,6 +181,10 @@ static BOOL InitClass(const char* name, const char* menu, WNDPROC proc) {
 int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, int nCmdShow) {
 	DWORD id;
 
+	(void)hPrevInst;
+	(void)lpsCmdLine;
+	(void)nCmdShow;
+
 	hInst = hCurInst;
 
 	if(!InitClass("FishyMailMain", "FISHYMAILMENU", MainWndProc)) return 0;
@@ -196,14 +202,14 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 	CloseHandle(hUIReady);
 
 	WaitForSingleObject(hUIThread, INFINITE);
+
+	return 0;
 }
 
 void FishyMailShowMain(void) {
 	HWND	  hWnd;
 	const int ww = 800;
 	const int wh = 600;
-	int	  dw;
-	int	  dh;
 
 	hWnd = CreateWindow("FishyMailMain", "FishyMail", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, ww, wh, NULL, 0, hInst, NULL);
 	if(hWnd == NULL) return;

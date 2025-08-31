@@ -5,12 +5,12 @@ SRCS = `find include src "(" -name "*.c" -or -name "*.h" ")" -and -not -name "st
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
 
-CFLAGS = $(P_CFLAGS) -I include -Wall -Wextra
+CFLAGS = $(P_CFLAGS) -I include -Wall -Wextra -Wno-unused-function
 LDFLAGS = $(P_LDFLAGS)
 LIBS = $(P_LIBS)
 
 OBJS = $(P_OBJS)
-OBJS += src/main.o
+OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o
 
 .PHONY: all clean format propset
 .SUFFIXES: .c .o .rc .res
@@ -27,7 +27,7 @@ fishymail$(EXEC): $(OBJS)
 .rc.res:
 	$(P_RC) -I include -O coff $< $@
 
-src/fishymail.res: src/fishymail.rc src/gui.rc src/images/fishymail.ico
+src/fishymail.res: src/fishymail.rc src/images/fishymail.ico
 
 format:
 	clang-format --verbose -i $(SRCS)
