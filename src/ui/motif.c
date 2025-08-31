@@ -101,7 +101,7 @@ void BeginPopup(const char* name, int help) {
 	popup_menu = XmCreatePulldownMenu(menubar, idname, NULL, 0);
 
 	str  = XmStringCreateLocalized(menuname);
-	menu = XmVaCreateCascadeButton(menubar, (char*)idname,
+	menu = XmVaCreateCascadeButton(menubar, idname,
 				       XmNsubMenuId, popup_menu,
 				       XmNlabelString, str,
 				       XmNmnemonic, c,
