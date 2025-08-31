@@ -1,8 +1,13 @@
 # $Id$
 
 # format and propset files
-SRCS = `find include src -name "*.c" ! -name "ui.tab.c" ! -name "ui.yy.c" ! -name "ui.c"`
-SRCS_HEADERS = `find include src -name "*.h" ! -name "ui.tab.h"`
+SRCS = `find include src -name "*.c" \
+	! -name "ui.tab.c" \
+	! -name "ui.yy.c" \
+	! -name "ui.c"`
+SRCS_HEADERS = `find include src -name "*.h" \
+	! -name "ui.tab.h" \
+	! -name "stb_ds.h"`
 PERL_SRCS = `find tools -name "*.pl"`
 
 P_CC ?= $(CROSS)gcc
