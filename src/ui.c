@@ -4,6 +4,7 @@
  */
 
 #include <fishymail.h>
+#include <ui.tab.h>
 const char* ui_text = \
 	"# $Id$\n" \
 	"# FishyMail UI stuff, read tools/gui.pl to understand\n" \
@@ -34,3 +35,14 @@ const char* ui_text = \
 	"\n" \
 	"HelpPopup \"&Help\"\n" \
 	"	MenuItem \"&Version\"\n";
+
+extern void* yy_scan_string(const char* str);
+extern void yy_delete_buffer(void* buffer);
+void FishyMailPrepareUI(void){
+	void* buf = yy_scan_string(ui_text);
+	if(yyparse() != 0){
+		yy_delete_buffer(buf);
+		return;
+	}
+	yy_delete_buffer(buf);
+}

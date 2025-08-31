@@ -7,5 +7,6 @@
 void FishyMailMainRoutine(void) {}
 
 void FishyMailMainUIRoutine(void) {
+	FishyMailPrepareUI();
 	FishyMailShowMain();
 }

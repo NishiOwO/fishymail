@@ -160,7 +160,7 @@ static LRESULT CALLBACK SplashWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 	return 0;
 }
 
-static BOOL InitClass(const char* name, const char* menu, WNDPROC proc) {
+static BOOL InitClass(const char* name, WNDPROC proc) {
 	WNDCLASSEX wc;
 	wc.cbSize	 = sizeof(wc);
 	wc.style	 = CS_VREDRAW | CS_HREDRAW;
@@ -171,7 +171,7 @@ static BOOL InitClass(const char* name, const char* menu, WNDPROC proc) {
 	wc.hIcon	 = LoadIcon(hInst, "FISHYMAIL");
 	wc.hCursor	 = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = GetSysColorBrush(COLOR_MENU);
-	wc.lpszMenuName	 = menu;
+	wc.lpszMenuName	 = NULL;
 	wc.lpszClassName = name;
 	wc.hIconSm	 = LoadIcon(hInst, "FISHYMAIL");
 
@@ -187,8 +187,8 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 
 	hInst = hCurInst;
 
-	if(!InitClass("FishyMailMain", "FISHYMAILMENU", MainWndProc)) return 0;
-	if(!InitClass("FishyMailSplash", NULL, SplashWndProc)) return 0;
+	if(!InitClass("FishyMailMain", MainWndProc)) return 0;
+	if(!InitClass("FishyMailSplash", SplashWndProc)) return 0;
 
 	InitCommonControls();
 

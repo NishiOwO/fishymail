@@ -30,13 +30,18 @@ int yyerror(const char* error){
 int yywrap(void){
 	return 1;
 }
-#line 34 "y.tab.c"
-
-#if ! defined(YYSTYPE) && ! defined(YYSTYPE_IS_DECLARED)
-/* Default: YYSTYPE is the semantic value type. */
-typedef int YYSTYPE;
-# define YYSTYPE_IS_DECLARED 1
+#ifdef YYSTYPE
+#undef  YYSTYPE_IS_DECLARED
+#define YYSTYPE_IS_DECLARED 1
 #endif
+#ifndef YYSTYPE_IS_DECLARED
+#define YYSTYPE_IS_DECLARED 1
+#line 20 "src/ui.y"
+typedef union {
+	char string[512];
+} YYSTYPE;
+#endif /* !YYSTYPE_IS_DECLARED */
+#line 45 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -73,67 +78,109 @@ int YYLEX_DECL();
 
 extern int YYPARSE_DECL();
 
+#define STRING 257
+#define NEWLINE 258
+#define COMMENT 259
+#define SPACE 260
+#define IDENTIFIER 261
+#define POPUP 262
+#define SETUP 263
+#define HELPPOPUP 264
+#define MENUITEM 265
+#define SET 266
 #define YYERRCODE 256
 typedef int YYINT;
 static const YYINT yylhs[] = {                           -1,
-    0,
+    0,    0,    1,    1,    2,    2,    3,    3,    3,    3,
 };
 static const YYINT yylen[] = {                            2,
-    1,
+    1,    2,    2,    2,    2,    1,    3,    3,    3,    5,
 };
 static const YYINT yydefred[] = {                         0,
-    1,
+    0,    0,    0,    0,    0,    0,    0,    1,    0,    6,
+    4,    5,    0,    0,    0,    0,    2,    3,    7,    8,
+    9,    0,    0,   10,
 };
 #if defined(YYDESTRUCT_CALL) || defined(YYSTYPE_TOSTRING)
 static const YYINT yystos[] = {                           0,
-  258,
+  259,  260,  262,  264,  265,  266,  268,  269,  270,  271,
+  258,  271,  260,  260,  260,  260,  269,  258,  257,  257,
+  257,  261,   61,  261,
 };
 #endif /* YYDESTRUCT_CALL || YYSTYPE_TOSTRING */
-static const YYINT yydgoto[] = {                          1,
+static const YYINT yydgoto[] = {                          7,
+    8,    9,   10,
 };
-static const YYINT yysindex[] = {                         0,
-    0,
+static const YYINT yysindex[] = {                      -259,
+ -256, -254, -251, -247, -246, -245, -259,    0, -242,    0,
+    0,    0, -253, -240, -239, -241,    0,    0,    0,    0,
+    0,  -42, -238,    0,
 };
 static const YYINT yyrindex[] = {                         0,
-    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,
 };
 #if YYBTYACC
 static const YYINT yycindex[] = {                         0,
-    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,
 };
 #endif
 static const YYINT yygindex[] = {                         0,
+   14,    0,   20,
 };
-#define YYTABLESIZE 0
-static const YYINT yytable[] = {                          0,
+#define YYTABLESIZE 23
+static const YYINT yytable[] = {                          1,
+    2,   11,    3,   19,    4,    5,    6,    3,   13,    4,
+    5,    6,   14,   15,   16,   18,   20,   21,   23,   22,
+   17,   12,   24,
 };
-static const YYINT yycheck[] = {                         -1,
+static const YYINT yycheck[] = {                        259,
+  260,  258,  262,  257,  264,  265,  266,  262,  260,  264,
+  265,  266,  260,  260,  260,  258,  257,  257,   61,  261,
+    7,    2,  261,
 };
 #if YYBTYACC
 static const YYINT yyctable[] = {                        -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,
 };
 #endif
-#define YYFINAL 1
+#define YYFINAL 7
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 256
-#define YYUNDFTOKEN 259
+#define YYMAXTOKEN 266
+#define YYUNDFTOKEN 272
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const yyname[] = {
 
 "$end",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"'='",0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"error","$accept","a","illegal-symbol",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"error","STRING","NEWLINE","COMMENT",
+"SPACE","IDENTIFIER","POPUP","SETUP","HELPPOPUP","MENUITEM","SET","$accept",
+"sequence","node","command","command_body","illegal-symbol",
 };
 static const char *const yyrule[] = {
-"$accept : a",
-"a : a",
+"$accept : sequence",
+"sequence : node",
+"sequence : sequence node",
+"node : command NEWLINE",
+"node : COMMENT NEWLINE",
+"command : SPACE command_body",
+"command : command_body",
+"command_body : POPUP SPACE STRING",
+"command_body : HELPPOPUP SPACE STRING",
+"command_body : MENUITEM SPACE STRING",
+"command_body : SET SPACE IDENTIFIER '=' IDENTIFIER",
 
 };
 #endif
@@ -934,6 +981,31 @@ yyreduce:
 
     switch (yyn)
     {
+case 7:
+#line 35 "src/ui.y"
+	{
+}
+#line 1 ""
+break;
+case 8:
+#line 37 "src/ui.y"
+	{
+}
+#line 1 ""
+break;
+case 9:
+#line 39 "src/ui.y"
+	{
+}
+#line 1 ""
+break;
+case 10:
+#line 41 "src/ui.y"
+	{
+}
+#line 1 ""
+break;
+#line 1009 "y.tab.c"
     default:
         break;
     }

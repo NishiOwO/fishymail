@@ -21,6 +21,8 @@ void FishyMailMainUIRoutine(void);
 void FishyMailShowMain(void);
 
 /* Parser */
+void FishyMailPrepareUI(void);
+
 int yyparse(void);
 int yylex(void);
 int yyerror(const char* msg);
