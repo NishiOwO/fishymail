@@ -139,7 +139,7 @@ void MenuItem(const char* name) {
 	FishyMailRemoveSpecial(tmp, menuname);
 
 	str = XmStringCreateLocalized(menuname);
-	w   = XmVaCreatePushButton(popup_menu, (char*)idname,
+	w   = XmVaCreatePushButton(popup_menu, idname,
 				   XmNlabelString, str,
 				   XmNmnemonic, c,
 				   NULL);
