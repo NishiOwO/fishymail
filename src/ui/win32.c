@@ -249,7 +249,8 @@ void FishyMailShowMain(void) {
 static HMENU hPopupMenu;
 static char  PopupName[128];
 static int   PopupPosition = 0;
-void	     BeginPopup(const char* name, int help) {
+
+void BeginPopup(const char* name, int help) {
 	sprintf(PopupName, "%s", name);
 
 	hPopupMenu = CreatePopupMenu();

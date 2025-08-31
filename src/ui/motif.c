@@ -17,7 +17,7 @@ static char* fallback_resources[] = {
     NULL,
 };
 
-struct {
+static struct {
 	int    argc;
 	char** argv;
 } args;
@@ -56,4 +56,13 @@ void FishyMailShowMain(void) {
 	XtManageChild(button);
 
 	XtRealizeWidget(top);
+}
+
+void BeginPopup(const char* name, int help) {
+	(void)name;
+	(void)help;
+}
+
+void MenuItem(const char* name) {
+	(void)name;
 }
