@@ -1,4 +1,4 @@
-/* $id$ */
+/* $Id$ */
 
 #include <fishymail.h>
 
