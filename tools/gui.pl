@@ -50,7 +50,7 @@ sub args {
 	return @r;
 }
 
-open(IN, "<", "src/indigo.ui") or die;
+open(IN, "<", "src/fishymail.ui") or die;
 while(my $l = <IN>){
 	$l =~ s/\r?\n$//g;
 	$l =~ s/^[ \t]+//;

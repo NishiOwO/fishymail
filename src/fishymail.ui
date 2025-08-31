@@ -1,0 +1,15 @@
+# FishyMail UI stuff, read tools/gui.pl to understand
+# vim: ft=text
+Set Title=FishyMail
+Set IncludeHeader=fishymailres.h
+Set ResourceHeader=include/fishymailres.h
+
+Popup "&File"
+	MenuItem "&Quit"
+
+Popup "&Edit"
+
+Popup "&View"
+
+HelpPopup "&Help"
+	MenuItem "&Version"

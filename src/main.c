@@ -1,10 +1,10 @@
 /* $id$ */
 
-#include <indigo.h>
+#include <fishymail.h>
 
 #include <stdio.h>
 
-void IndigoMainRoutine(void) {}
-void IndigoMainUIRoutine(void) {
-	IndigoShowMain();
+void FishyMailMainRoutine(void) {}
+void FishyMailMainUIRoutine(void) {
+	FishyMailShowMain();
 }

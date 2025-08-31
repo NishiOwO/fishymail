@@ -1,9 +1,0 @@
-/* $Id$ */
-
-#include <winver.h>
-
-#include <indigores.h>
-
-INDIGO ICON "images/indigo.ico"
-
-#include "gui.rc"

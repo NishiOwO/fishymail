@@ -5,9 +5,9 @@
 
 #include <winver.h>
 
-#include <indigores.h>
+#include <fishymailres.h>
 
-IndigoMenu MENU {
+FishyMailMenu MENU {
 	POPUP "&File" {
 		MENUITEM "&Quit", ID_MENU_FILE_QUIT
 	}

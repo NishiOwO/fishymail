@@ -1,7 +1,7 @@
 /* $Id$ */
 
-#include <indigo.h>
-#include <indigores.h>
+#include <fishymail.h>
+#include <fishymailres.h>
 
 #include <windows.h>
 #include <commctrl.h>
@@ -30,7 +30,7 @@ static DWORD WINAPI UIThread(LPVOID lp) {
 	BOOL bret;
 	MSG  msg;
 
-	IndigoMainUIRoutine();
+	FishyMailMainUIRoutine();
 
 	SetEvent(hUIReady);
 
@@ -56,11 +56,11 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			char buf[512];
 			buf[0] = 0;
 
-			sprintf(buf + strlen(buf), "Indigo, Email/NNTP client\r\n");
+			sprintf(buf + strlen(buf), "FishyMail, Email/NNTP client\r\n");
 			sprintf(buf + strlen(buf), "Version %s\r\n", VERSION);
 			sprintf(buf + strlen(buf), "Copyright (C) 2025 Nishi\r\n");
 			sprintf(buf + strlen(buf), "\r\n");
-			sprintf(buf + strlen(buf), "https://github.com/nishiowo/indigo");
+			sprintf(buf + strlen(buf), "https://github.com/nishiowo/fishymail");
 
 			p.cbSize = sizeof(p);
 			p.hwndOwner = hWnd;
@@ -68,7 +68,7 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			p.lpszText = buf;
 			p.lpszCaption = "Version";
 			p.dwStyle = MB_USERICON | MB_OK;
-			p.lpszIcon = "INDIGO";
+			p.lpszIcon = "FISHYMAIL";
 			p.dwContextHelpId = 0;
 			p.lpfnMsgBoxCallback = NULL;
 			p.dwLanguageId = 0;
@@ -166,12 +166,12 @@ static BOOL InitClass(const char* name, const char* menu, WNDPROC proc) {
 	wc.cbClsExtra	 = 0;
 	wc.cbWndExtra	 = 0;
 	wc.hInstance	 = hInst;
-	wc.hIcon	 = LoadIcon(hInst, "INDIGO");
+	wc.hIcon	 = LoadIcon(hInst, "FISHYMAIL");
 	wc.hCursor	 = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = GetSysColorBrush(COLOR_MENU);
 	wc.lpszMenuName	 = menu;
 	wc.lpszClassName = name;
-	wc.hIconSm	 = LoadIcon(hInst, "INDIGO");
+	wc.hIconSm	 = LoadIcon(hInst, "FISHYMAIL");
 
 	return RegisterClassEx(&wc);
 }
@@ -181,12 +181,12 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 
 	hInst = hCurInst;
 
-	if(!InitClass("IndigoMain", "INDIGOMENU", MainWndProc)) return 0;
-	if(!InitClass("IndigoSplash", NULL, SplashWndProc)) return 0;
+	if(!InitClass("FishyMailMain", "FISHYMAILMENU", MainWndProc)) return 0;
+	if(!InitClass("FishyMailSplash", NULL, SplashWndProc)) return 0;
 
 	InitCommonControls();
 
-	IndigoMainRoutine();
+	FishyMailMainRoutine();
 
 	hUIReady = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -198,14 +198,14 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 	WaitForSingleObject(hUIThread, INFINITE);
 }
 
-void IndigoShowMain(void) {
+void FishyMailShowMain(void) {
 	HWND	  hWnd;
 	const int ww = 800;
 	const int wh = 600;
 	int	  dw;
 	int	  dh;
 
-	hWnd = CreateWindow("IndigoMain", "Indigo", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, ww, wh, NULL, 0, hInst, NULL);
+	hWnd = CreateWindow("FishyMailMain", "FishyMail", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, ww, wh, NULL, 0, hInst, NULL);
 	if(hWnd == NULL) return;
 
 	ShowWindow(hWnd, SW_NORMAL);

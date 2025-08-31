@@ -1,5 +1,5 @@
 /* $Id$ */
 
-#include <indigo.h>
+#include <fishymail.h>
 
-int main(int argc, char** argv) { IndigoMainRoutine(); }
+int main(int argc, char** argv) { FishyMailMainRoutine(); }
