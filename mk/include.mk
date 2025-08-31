@@ -1,3 +1,5 @@
+# $Id$
+
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
 

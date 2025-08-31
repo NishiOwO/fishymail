@@ -1,3 +1,5 @@
+/* $Id$ */
+
 #include <winver.h>
 
 #include <indigores.h>

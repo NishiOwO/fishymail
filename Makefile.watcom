@@ -1,3 +1,6 @@
+# $Id$
+# Makefile for Windows 32-bit, using Watcom
+
 P_CC = ./tools/owcc.pl
 P_RC = true
 P_CFLAGS = -b win32 -I$(WATCOM)/h/nt -std=c99
