@@ -14,7 +14,7 @@ int yywrap(void){
 %}
 
 %token STRING NEWLINE COMMENT SPACE IDENTIFIER
-%token POPUP SETUP HELPPOPUP MENUITEM
+%token POPUP SETUP HELPPOPUP MENUITEM SET
 %start sequence
 
 %union {
