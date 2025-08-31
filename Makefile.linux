@@ -2,10 +2,7 @@
 # Makefile for Linux.
 # Checked working on Debian/amd64
 
-P_CFLAGS =
-P_LDFLAGS =
-P_LIBS = -lXm -lXt -lX11
+P_CFLAGS +=
+P_LDFLAGS +=
 
-P_OBJS = src/ui/motif.o
-
-include mk/include.mk
+include Makefile.unix

@@ -1,0 +1,8 @@
+# $Id$
+# Makefile for Unix.
+
+P_LIBS += -lXm -lXt
+
+P_OBJS += src/ui/motif.o
+
+include mk/include.mk
