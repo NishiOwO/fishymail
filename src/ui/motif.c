@@ -53,6 +53,8 @@ int main(int argc, char** argv) {
 	menubar = XmVaCreateSimpleMenuBar(mainw, "MenuBar", NULL);
 	XtManageChild(menubar);
 
+	XtRealizeWidget(top);
+
 	FishyMailMainRoutine();
 
 	ret = pthread_create(&ui_thread, NULL, ui_thread_routine, NULL);
@@ -68,8 +70,6 @@ int main(int argc, char** argv) {
 void FishyMailShowMain(void) {
 	button = XmVaCreatePushButton(mainw, "hello", NULL);
 	XtManageChild(button);
-
-	XtRealizeWidget(top);
 }
 
 static Widget popup_menu;
