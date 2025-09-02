@@ -64,7 +64,7 @@ static void* ui_thread_routine(void* arg) {
 }
 
 int main(int argc, char** argv) {
-	int ret;
+	int    ret;
 	Pixmap icon_pixmap, icon_mask;
 
 	args.argc = argc;
