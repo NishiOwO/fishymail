@@ -56,6 +56,10 @@ Popup	{
 	return POPUP;
 }
 
+MenuItemSeparator {
+	return MENUITEMSEPARATOR;
+}
+
 MenuItem {
 	return MENUITEM;
 }

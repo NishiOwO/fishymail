@@ -279,3 +279,7 @@ void MenuItem(const char* name) {
 
 	AppendMenu(hPopupMenu, MF_STRING, AllocateMenuFromName(idname), name);
 }
+
+void MenuItemSeparator(void) {
+	AppendMenu(hPopupMenu, MF_SEPARATOR, 0, NULL);
+}

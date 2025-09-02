@@ -25,4 +25,5 @@ Popup "&Edit"
 Popup "&View"
 
 HelpPopup "&Help"
+	MenuItemSeparator
 	MenuItem "&Version"

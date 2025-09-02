@@ -152,3 +152,6 @@ void MenuItem(const char* name) {
 		}
 	}
 }
+
+void MenuItemSeparator(void) {
+}

@@ -28,6 +28,7 @@ void FishyMailShowMain(void);
 /* also ui driver, called from parser */
 void BeginPopup(const char* name, int help);
 void MenuItem(const char* name);
+void MenuItemSeparator(void);
 
 /* Parser */
 void FishyMailPrepareUI(void);

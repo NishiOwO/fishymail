@@ -14,7 +14,7 @@ int yywrap(void){
 %}
 
 %token STRING NEWLINE COMMENT SPACE IDENTIFIER
-%token POPUP SETUP HELPPOPUP MENUITEM SET
+%token POPUP SETUP HELPPOPUP MENUITEM SET MENUITEMSEPARATOR
 %start sequence
 
 %union {
@@ -40,6 +40,9 @@ command_body	: POPUP SPACE STRING {
 }
 		| MENUITEM SPACE STRING {
 	MenuItem($<string>3);
+}
+		| MENUITEMSEPARATOR {
+	MenuItemSeparator();
 }
 		| SET SPACE IDENTIFIER '=' IDENTIFIER {
 	/* ignore */
