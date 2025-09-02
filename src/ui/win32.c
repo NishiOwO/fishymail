@@ -51,16 +51,30 @@ static void ShowBitmapSize(HDC hdc, const char* name, int x, int y, int w, int h
 }
 
 static DWORD WINAPI UIThread(LPVOID lp) {
-	BOOL bret;
-	MSG  msg;
-	RECT rc;
+	BOOL	  bret;
+	MSG	  msg;
+	RECT	  rc;
+	const int ww = 800;
+	const int wh = 600;
 
 	(void)lp;
+
+	hMain = CreateWindow("FishyMailMain", "FishyMail", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, ww, wh, NULL, 0, hInst, NULL);
+	if(hMain == NULL) {
+		SetEvent(hUIReady);
+		return 0;
+	}
+
+	ShowWindow(hMain, SW_NORMAL);
+	UpdateWindow(hMain);
 
 	FishyMailMainUIRoutine();
 
 	GetClientRect(hMain, &rc);
 	FishyMailLayout(rc.right - rc.left, rc.bottom - rc.top);
+
+	SetMenu(hMain, hMenu);
+	DrawMenuBar(hMain);
 
 	SetEvent(hUIReady);
 
@@ -77,7 +91,6 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		DestroyWindow(hWnd);
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
-		if(m == GetMenuFromName("FILE_QUIT")) DestroyWindow(hWnd);
 		if(m == GetMenuFromName("HELP_VERSION")) {
 			MSGBOXPARAMS p;
 			char	     buf[512];
@@ -101,12 +114,10 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			p.dwLanguageId	     = 0;
 
 			MessageBoxIndirect(&p);
+		} else {
 		}
 	} else if(msg == WM_DESTROY) {
 		PostQuitMessage(0);
-	} else if(msg == WM_CREATE) {
-		SetMenu(hWnd, hMenu);
-		DrawMenuBar(hWnd);
 	} else if(msg == WM_SIZE) {
 		RECT rc;
 		GetClientRect(hWnd, &rc);
@@ -228,17 +239,6 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 }
 
 void FishyMailShowMain(void) {
-	HWND	  hWnd;
-	const int ww = 800;
-	const int wh = 600;
-
-	hWnd = CreateWindow("FishyMailMain", "FishyMail", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, ww, wh, NULL, 0, hInst, NULL);
-	if(hWnd == NULL) return;
-
-	ShowWindow(hWnd, SW_NORMAL);
-	UpdateWindow(hWnd);
-
-	hMain = hWnd;
 }
 
 static HMENU hPopupMenu;
@@ -280,6 +280,18 @@ void MenuItemSeparator(void) {
 }
 
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
-	printf("!\n");
 	MoveWindow((HWND)opaque, x, y, x + w, y + h, TRUE);
+}
+
+void Tree(const char* name, int left, int top, int right, int bottom) {
+	char idname[128];
+	char tmp[128];
+	HWND wnd;
+
+	sprintf(tmp, "TREE_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	wnd = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+
+	FishyMailAddWidget(wnd, left, top, right, bottom);
 }

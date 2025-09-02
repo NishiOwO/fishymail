@@ -34,6 +34,7 @@ void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);
 void BeginPopup(const char* name, int help);
 void MenuItem(const char* name);
 void MenuItemSeparator(void);
+void Tree(const char* name, int left, int top, int right, int bottom);
 
 /* Parser */
 void FishyMailPrepareUI(void);

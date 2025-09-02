@@ -25,6 +25,8 @@ const char* ui_text = \
 	"Set Title=FishyMail\n" \
 	"Set EmbedFile=src/ui.c\n" \
 	"\n" \
+	"Tree \"TREE\" 0 0 -200 0\n" \
+	"\n" \
 	"Popup \"&File\"\n" \
 	"	MenuItem \"&Quit\"\n" \
 	"\n" \

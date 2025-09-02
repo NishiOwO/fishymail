@@ -36,12 +36,13 @@ int yywrap(void){
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 20 "src/ui.y"
+#line 21 "src/ui.y"
 typedef union {
 	char string[128];
+	int number;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 45 "y.tab.c"
+#line 46 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -83,81 +84,91 @@ extern int YYPARSE_DECL();
 #define COMMENT 259
 #define SPACE 260
 #define IDENTIFIER 261
-#define POPUP 262
-#define SETUP 263
-#define HELPPOPUP 264
-#define MENUITEM 265
-#define SET 266
-#define MENUITEMSEPARATOR 267
+#define NUMBER 262
+#define POPUP 263
+#define SETUP 264
+#define HELPPOPUP 265
+#define MENUITEM 266
+#define SET 267
+#define MENUITEMSEPARATOR 268
+#define TREE 269
 #define YYERRCODE 256
 typedef int YYINT;
 static const YYINT yylhs[] = {                           -1,
     0,    0,    1,    1,    2,    2,    3,    3,    3,    3,
-    3,
+    3,    3,
 };
 static const YYINT yylen[] = {                            2,
     1,    2,    2,    2,    2,    1,    3,    3,    3,    1,
-    5,
+   11,    5,
 };
 static const YYINT yydefred[] = {                         0,
-    0,    0,    0,    0,    0,    0,   10,    0,    1,    0,
-    6,    4,    5,    0,    0,    0,    0,    2,    3,    7,
-    8,    9,    0,    0,   11,
+    0,    0,    0,    0,    0,    0,   10,    0,    0,    1,
+    0,    6,    4,    5,    0,    0,    0,    0,    0,    2,
+    3,    7,    8,    9,    0,    0,    0,    0,   12,    0,
+    0,    0,    0,    0,    0,   11,
 };
 #if defined(YYDESTRUCT_CALL) || defined(YYSTYPE_TOSTRING)
 static const YYINT yystos[] = {                           0,
-  259,  260,  262,  264,  265,  266,  267,  269,  270,  271,
-  272,  258,  272,  260,  260,  260,  260,  270,  258,  257,
-  257,  257,  261,   61,  261,
+  259,  260,  263,  265,  266,  267,  268,  269,  271,  272,
+  273,  274,  258,  274,  260,  260,  260,  260,  260,  272,
+  258,  257,  257,  257,  261,  257,   61,  260,  261,  262,
+  260,  262,  260,  262,  260,  262,
 };
 #endif /* YYDESTRUCT_CALL || YYSTYPE_TOSTRING */
-static const YYINT yydgoto[] = {                          8,
-    9,   10,   11,
+static const YYINT yydgoto[] = {                          9,
+   10,   11,   12,
 };
 static const YYINT yysindex[] = {                      -259,
- -256, -253, -250, -245, -244, -243,    0, -259,    0, -254,
-    0,    0,    0, -239, -238, -237, -240,    0,    0,    0,
-    0,    0,  -39, -236,    0,
+ -256, -252, -257, -255, -248, -242,    0, -241, -259,    0,
+ -238,    0,    0,    0, -236, -235, -234, -237, -232,    0,
+    0,    0,    0,    0,  -35, -233, -231, -230,    0, -229,
+ -228, -227, -226, -225, -224,    0,
 };
 static const YYINT yyrindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,
 };
 #if YYBTYACC
 static const YYINT yycindex[] = {                         0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
     0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
+    0,    0,    0,    0,    0,    0,
 };
 #endif
 static const YYINT yygindex[] = {                         0,
-   15,    0,   22,
+   19,    0,   27,
 };
-#define YYTABLESIZE 25
+#define YYTABLESIZE 38
 static const YYINT yytable[] = {                          1,
-    2,   12,    3,   19,    4,    5,    6,    7,    3,   14,
-    4,    5,    6,    7,   15,   16,   17,   20,   21,   22,
-   23,   24,   18,   13,   25,
+    2,   13,   15,    3,   16,    4,    5,    6,    7,    8,
+    3,   17,    4,    5,    6,    7,    8,   18,   19,   21,
+   22,   23,   24,   25,   26,   27,   28,   20,   14,   29,
+   31,   30,   33,   32,   35,   34,    0,   36,
 };
 static const YYINT yycheck[] = {                        259,
-  260,  258,  262,  258,  264,  265,  266,  267,  262,  260,
-  264,  265,  266,  267,  260,  260,  260,  257,  257,  257,
-  261,   61,    8,    2,  261,
+  260,  258,  260,  263,  260,  265,  266,  267,  268,  269,
+  263,  260,  265,  266,  267,  268,  269,  260,  260,  258,
+  257,  257,  257,  261,  257,   61,  260,    9,    2,  261,
+  260,  262,  260,  262,  260,  262,   -1,  262,
 };
 #if YYBTYACC
 static const YYINT yyctable[] = {                        -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
    -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+   -1,   -1,   -1,   -1,   -1,   -1,   -1,
 };
 #endif
-#define YYFINAL 8
+#define YYFINAL 9
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 267
-#define YYUNDFTOKEN 273
+#define YYMAXTOKEN 269
+#define YYUNDFTOKEN 275
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const yyname[] = {
@@ -169,8 +180,8 @@ static const char *const yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"error","STRING","NEWLINE","COMMENT",
-"SPACE","IDENTIFIER","POPUP","SETUP","HELPPOPUP","MENUITEM","SET",
-"MENUITEMSEPARATOR","$accept","sequence","node","command","command_body",
+"SPACE","IDENTIFIER","NUMBER","POPUP","SETUP","HELPPOPUP","MENUITEM","SET",
+"MENUITEMSEPARATOR","TREE","$accept","sequence","node","command","command_body",
 "illegal-symbol",
 };
 static const char *const yyrule[] = {
@@ -185,6 +196,7 @@ static const char *const yyrule[] = {
 "command_body : HELPPOPUP SPACE STRING",
 "command_body : MENUITEM SPACE STRING",
 "command_body : MENUITEMSEPARATOR",
+"command_body : TREE SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER",
 "command_body : SET SPACE IDENTIFIER '=' IDENTIFIER",
 
 };
@@ -987,41 +999,48 @@ yyreduce:
     switch (yyn)
     {
 case 7:
-#line 35 "src/ui.y"
+#line 37 "src/ui.y"
 	{
 	BeginPopup(yystack.l_mark[0].string, 0);
 }
 #line 1 ""
 break;
 case 8:
-#line 38 "src/ui.y"
+#line 40 "src/ui.y"
 	{
 	BeginPopup(yystack.l_mark[0].string, 1);
 }
 #line 1 ""
 break;
 case 9:
-#line 41 "src/ui.y"
+#line 43 "src/ui.y"
 	{
 	MenuItem(yystack.l_mark[0].string);
 }
 #line 1 ""
 break;
 case 10:
-#line 44 "src/ui.y"
+#line 46 "src/ui.y"
 	{
 	MenuItemSeparator();
 }
 #line 1 ""
 break;
 case 11:
-#line 47 "src/ui.y"
+#line 49 "src/ui.y"
+	{
+	Tree(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
+}
+#line 1 ""
+break;
+case 12:
+#line 52 "src/ui.y"
 	{
 	/* ignore */
 }
 #line 1 ""
 break;
-#line 1025 "y.tab.c"
+#line 1044 "y.tab.c"
     default:
         break;
     }

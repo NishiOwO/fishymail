@@ -40,6 +40,11 @@ static char* buf = NULL;
 	return STRING;
 }
 
+-?[0-9]+ {
+	yylval.number = atoi(yytext);
+	return NUMBER;
+}
+
 #[^\n]* {
 	return COMMENT;
 }
@@ -62,6 +67,10 @@ MenuItemSeparator {
 
 MenuItem {
 	return MENUITEM;
+}
+
+Tree {
+	return TREE;
 }
 
 [A-Za-z\./_\-]+ {

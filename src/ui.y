@@ -13,12 +13,14 @@ int yywrap(void){
 }
 %}
 
-%token STRING NEWLINE COMMENT SPACE IDENTIFIER
+%token STRING NEWLINE COMMENT SPACE IDENTIFIER NUMBER
 %token POPUP SETUP HELPPOPUP MENUITEM SET MENUITEMSEPARATOR
+%token TREE
 %start sequence
 
 %union {
 	char string[128];
+	int number;
 }
 
 %%
@@ -43,6 +45,9 @@ command_body	: POPUP SPACE STRING {
 }
 		| MENUITEMSEPARATOR {
 	MenuItemSeparator();
+}
+		| TREE SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER {
+	Tree($<string>3, $<number>5, $<number>7, $<number>9, $<number>11);
 }
 		| SET SPACE IDENTIFIER '=' IDENTIFIER {
 	/* ignore */

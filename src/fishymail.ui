@@ -17,6 +17,8 @@
 Set Title=FishyMail
 Set EmbedFile=src/ui.c
 
+Tree "TREE" 0 0 -200 0
+
 Popup "&File"
 	MenuItem "&Quit"
 

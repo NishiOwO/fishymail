@@ -10,7 +10,7 @@
 #include <Xm/RowColumn.h>
 #include <Xm/Separator.h>
 #include <Xm/Form.h>
-#include <Xm/BulletinB.h>
+#include <Xm/Outline.h>
 
 #include <fishymail.h>
 #include <pthread.h>
@@ -38,12 +38,18 @@ static void* ui_thread_routine(void* arg) {
 	(void)arg;
 
 	FishyMailMainUIRoutine();
+
+	XtWidgetGeometry geo, geo2;
+	XtQueryGeometry(mainw, NULL, &geo);
+	XtQueryGeometry(menubar, NULL, &geo2);
+
+	FishyMailLayout(geo.width, geo.height - geo2.height);
+
 	while(1) {
 		XtAppNextEvent(app, &ev);
 		XtDispatchEvent(&ev);
 
 		if(ev.type == ResizeRequest || ev.type == ConfigureNotify) {
-			XtWidgetGeometry geo, geo2;
 			XtQueryGeometry(mainw, NULL, &geo);
 			XtQueryGeometry(menubar, NULL, &geo2);
 
@@ -178,4 +184,18 @@ void MenuItemSeparator(void) {
 
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
 	XtVaSetValues((Widget)opaque, XmNx, x, XmNy, y, XmNwidth, w, XmNheight, h, NULL);
+}
+
+void Tree(const char* name, int left, int top, int right, int bottom) {
+	char   tmp[256];
+	char   idname[128];
+	Widget w;
+
+	sprintf(tmp, "TREE_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	w = XtVaCreateWidget(idname, xmOutlineWidgetClass, form, NULL);
+	XtManageChild(w);
+
+	FishyMailAddWidget(w, left, top, right, bottom);
 }
