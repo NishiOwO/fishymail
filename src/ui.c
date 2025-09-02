@@ -33,10 +33,6 @@ const char* ui_text = \
 	"Popup \"&View\"\n" \
 	"\n" \
 	"HelpPopup \"&Help\"\n" \
-	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
 	"	MenuItem \"&Version\"\n";
 
 extern void* yy_scan_string(const char* str);

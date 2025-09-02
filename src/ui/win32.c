@@ -11,6 +11,7 @@ static HINSTANCE hInst;
 static HANDLE	 hUIThread;
 static HANDLE	 hUIReady;
 static HMENU	 hMenu;
+static HWND	 hMain;
 
 typedef struct menu {
 	char* key;
@@ -52,10 +53,14 @@ static void ShowBitmapSize(HDC hdc, const char* name, int x, int y, int w, int h
 static DWORD WINAPI UIThread(LPVOID lp) {
 	BOOL bret;
 	MSG  msg;
+	RECT rc;
 
 	(void)lp;
 
 	FishyMailMainUIRoutine();
+
+	GetClientRect(hMain, &rc);
+	FishyMailLayout(rc.right - rc.left, rc.bottom - rc.top);
 
 	SetEvent(hUIReady);
 
@@ -67,9 +72,6 @@ static DWORD WINAPI UIThread(LPVOID lp) {
 	return 0;
 }
 
-typedef struct main {
-	HWND tree;
-} main_t;
 static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	if(msg == WM_CLOSE) {
 		DestroyWindow(hWnd);
@@ -101,23 +103,14 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			MessageBoxIndirect(&p);
 		}
 	} else if(msg == WM_DESTROY) {
-		main_t* m = (main_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-		DestroyWindow(m->tree);
-		free(m);
-
 		PostQuitMessage(0);
 	} else if(msg == WM_CREATE) {
-		main_t* m = malloc(sizeof(*m));
-		m->tree	  = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hWnd, 0, hInst, NULL);
-
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)m);
 		SetMenu(hWnd, hMenu);
 		DrawMenuBar(hWnd);
 	} else if(msg == WM_SIZE) {
-		main_t* m = (main_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-		MoveWindow(m->tree, 0, 0, 200, HIWORD(lp), TRUE);
+		RECT rc;
+		GetClientRect(hWnd, &rc);
+		FishyMailLayout(rc.right - rc.left, rc.bottom - rc.top);
 	} else {
 		return DefWindowProc(hWnd, msg, wp, lp);
 	}
@@ -244,6 +237,8 @@ void FishyMailShowMain(void) {
 
 	ShowWindow(hWnd, SW_NORMAL);
 	UpdateWindow(hWnd);
+
+	hMain = hWnd;
 }
 
 static HMENU hPopupMenu;
@@ -282,4 +277,9 @@ void MenuItem(const char* name) {
 
 void MenuItemSeparator(void) {
 	AppendMenu(hPopupMenu, MF_SEPARATOR, 0, NULL);
+}
+
+void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
+	printf("!\n");
+	MoveWindow((HWND)opaque, x, y, x + w, y + h, TRUE);
 }

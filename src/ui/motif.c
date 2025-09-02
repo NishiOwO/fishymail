@@ -9,6 +9,8 @@
 #include <Xm/CascadeB.h>
 #include <Xm/RowColumn.h>
 #include <Xm/Separator.h>
+#include <Xm/Form.h>
+#include <Xm/BulletinB.h>
 
 #include <fishymail.h>
 #include <pthread.h>
@@ -17,7 +19,7 @@
 
 static pthread_t ui_thread;
 
-static Widget	    top, mainw, button, menubar;
+static Widget	    top, mainw, form, menubar;
 static XtAppContext app;
 
 static char* fallback_resources[] = {
@@ -31,10 +33,24 @@ static struct {
 } args;
 
 static void* ui_thread_routine(void* arg) {
+	XEvent ev;
+
 	(void)arg;
 
 	FishyMailMainUIRoutine();
-	XtAppMainLoop(app);
+	while(1) {
+		XtAppNextEvent(app, &ev);
+		XtDispatchEvent(&ev);
+
+		if(ev.type == ResizeRequest || ev.type == ConfigureNotify) {
+			XtWidgetGeometry geo, geo2;
+			XtQueryGeometry(mainw, NULL, &geo);
+			XtQueryGeometry(menubar, NULL, &geo2);
+
+			FishyMailLayout(geo.width, geo.height - geo2.height);
+		}
+	}
+
 	return NULL;
 }
 
@@ -47,14 +63,17 @@ int main(int argc, char** argv) {
 	top = XtVaAppInitialize(&app, APP_CLASS, NULL, 0,
 				&args.argc, args.argv, fallback_resources, XtNtitle, "FishyMail", NULL);
 
-	XtResizeWidget(top, 800, 600, 1);
-
 	mainw = XtVaCreateManagedWidget("MainWindow", xmMainWindowWidgetClass, top, NULL);
 
 	menubar = XmVaCreateSimpleMenuBar(mainw, "MenuBar", NULL);
 	XtManageChild(menubar);
 
+	form = XmVaCreateForm(mainw, "form", NULL);
+	XtManageChild(form);
+
 	XtRealizeWidget(top);
+
+	XtResizeWidget(top, 800, 600, 1);
 
 	FishyMailMainRoutine();
 
@@ -69,8 +88,6 @@ int main(int argc, char** argv) {
 }
 
 void FishyMailShowMain(void) {
-	button = XmVaCreatePushButton(mainw, "hello", NULL);
-	XtManageChild(button);
 }
 
 static Widget popup_menu;
@@ -157,4 +174,8 @@ void MenuItem(const char* name) {
 void MenuItemSeparator(void) {
 	Widget w = XmVaCreateSeparator(popup_menu, "SEPARATOR", NULL);
 	XtManageChild(w);
+}
+
+void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
+	XtVaSetValues((Widget)opaque, XmNx, x, XmNy, y, XmNwidth, w, XmNheight, h, NULL);
 }

@@ -22,8 +22,13 @@ void FishyMailMainUIRoutine(void);
 void FishyMailSanitizeName(const char* from, char* to);
 void FishyMailRemoveSpecial(const char* from, char* to);
 
+/* layout.c */
+void FishyMailLayout(int ww, int wh);
+void FishyMailAddWidget(void* opaque, int left, int top, int right, int bottom);
+
 /* ui driver */
 void FishyMailShowMain(void);
+void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);
 
 /* also ui driver, called from parser */
 void BeginPopup(const char* name, int help);
