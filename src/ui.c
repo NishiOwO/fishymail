@@ -37,9 +37,6 @@ const char* ui_text = \
 	"	MenuItemSeparator\n" \
 	"	MenuItemSeparator\n" \
 	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
-	"	MenuItemSeparator\n" \
 	"	MenuItem \"&Version\"\n";
 
 extern void* yy_scan_string(const char* str);

@@ -8,6 +8,7 @@
 #include <Xm/MainW.h>
 #include <Xm/CascadeB.h>
 #include <Xm/RowColumn.h>
+#include <Xm/Separator.h>
 
 #include <fishymail.h>
 #include <pthread.h>
@@ -154,4 +155,6 @@ void MenuItem(const char* name) {
 }
 
 void MenuItemSeparator(void) {
+	Widget w = XmVaCreateSeparator(popup_menu, "SEPARATOR", NULL);
+	XtManageChild(w);
 }
