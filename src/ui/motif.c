@@ -2,6 +2,8 @@
 
 #include <X11/Intrinsic.h>
 #include <X11/IntrinsicP.h>
+#include <X11/xpm.h>
+#include <X11/X.h>
 
 #include <Xm/Xm.h>
 #include <Xm/PushB.h>
@@ -12,6 +14,7 @@
 #include <Xm/Form.h>
 #include <Xm/Outline.h>
 
+#include "../images/fishymail.xpm"
 #include <fishymail.h>
 #include <pthread.h>
 
@@ -62,12 +65,18 @@ static void* ui_thread_routine(void* arg) {
 
 int main(int argc, char** argv) {
 	int ret;
+	Pixmap icon_pixmap, icon_mask;
 
 	args.argc = argc;
 	args.argv = argv;
 
+	XInitThreads();
 	top = XtVaAppInitialize(&app, APP_CLASS, NULL, 0,
 				&args.argc, args.argv, fallback_resources, XtNtitle, "FishyMail", NULL);
+
+	XpmCreatePixmapFromData(XtDisplay(top), DefaultRootWindow(XtDisplay(top)), fishymail, &icon_pixmap, &icon_mask, NULL);
+	XtVaSetValues(top, XmNiconPixmap, icon_pixmap, NULL);
+	XtVaSetValues(top, XmNiconMask, icon_mask, NULL);
 
 	mainw = XtVaCreateManagedWidget("MainWindow", xmMainWindowWidgetClass, top, NULL);
 
