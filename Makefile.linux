@@ -2,8 +2,6 @@
 # Makefile for Linux.
 # Checked working on Debian/amd64
 
-P_LIBS += -lX11
-
 P_CFLAGS +=
 P_LDFLAGS +=
 

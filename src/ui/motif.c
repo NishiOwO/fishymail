@@ -178,12 +178,6 @@ void MenuItem(const char* name) {
 				   NULL);
 	XmStringFree(str);
 	XtManageChild(w);
-
-	for(i = 0; name[i] != 0; i++) {
-		if(name[i] == '&') {
-			c = name[i + 1];
-		}
-	}
 }
 
 void MenuItemSeparator(void) {
