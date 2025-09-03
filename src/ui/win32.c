@@ -116,6 +116,8 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 			MessageBoxIndirect(&p);
 		} else {
 		}
+	} else if(msg == WM_CTLCOLORSTATIC) {
+		return DefWindowProc(hWnd, WM_CTLCOLOREDIT, wp, lp);
 	} else if(msg == WM_DESTROY) {
 		PostQuitMessage(0);
 	} else if(msg == WM_SIZE) {
@@ -280,7 +282,7 @@ void MenuItemSeparator(void) {
 }
 
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
-	MoveWindow((HWND)opaque, x, y, x + w, y + h, TRUE);
+	MoveWindow((HWND)opaque, x, y, w, h, TRUE);
 }
 
 void Tree(const char* name, int left, int top, int right, int bottom) {
@@ -292,6 +294,45 @@ void Tree(const char* name, int left, int top, int right, int bottom) {
 	FishyMailSanitizeName(tmp, idname);
 
 	wnd = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+
+	FishyMailAddWidget(wnd, left, top, right, bottom);
+}
+
+void List(const char* name, int left, int top, int right, int bottom) {
+	char idname[128];
+	char tmp[128];
+	HWND wnd;
+
+	sprintf(tmp, "LIST_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	wnd = CreateWindow("LISTBOX", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+
+	FishyMailAddWidget(wnd, left, top, right, bottom);
+}
+
+void ReadOnlyText(const char* name, int left, int top, int right, int bottom) {
+	char idname[128];
+	char tmp[128];
+	HWND wnd;
+
+	sprintf(tmp, "READONLYTEXT_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+
+	FishyMailAddWidget(wnd, left, top, right, bottom);
+}
+
+void Text(const char* name, int left, int top, int right, int bottom) {
+	char idname[128];
+	char tmp[128];
+	HWND wnd;
+
+	sprintf(tmp, "TEXT_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
 
 	FishyMailAddWidget(wnd, left, top, right, bottom);
 }
