@@ -13,12 +13,17 @@
 #include <Xm/Separator.h>
 #include <Xm/Form.h>
 #include <Xm/Outline.h>
+#include <Xm/Frame.h>
+#include <Xm/List.h>
+#include <Xm/ScrolledW.h>
+#include <Xm/Text.h>
 
 #include "../images/fishymail.xpm"
 #include <fishymail.h>
 #include <pthread.h>
 
 #define APP_CLASS "fishymail"
+#define TEXT_KEYBIND "#override Ctrl <Key> C: copy-clipboard()\\nCtrl <Key> V: paste-clipboard()\\nCtrl <Key> A: select-all()\\nCtrl <Key> X: cut-clipboard()"
 
 static pthread_t ui_thread;
 
@@ -26,7 +31,9 @@ static Widget	    top, mainw, form, menubar;
 static XtAppContext app;
 
 static char* fallback_resources[] = {
-    APP_CLASS "*fontList: -sony-fixed-medium-r-normal--0-0-100-100-c-0-iso8859-1",
+    APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
+    APP_CLASS "*MenuBar*fontList: -adobe-helvetica-bold-r-normal--17-120-100-100-p-92-iso8859-1",
+    APP_CLASS "*TEXT_TEXT*translations: " TEXT_KEYBIND,
     NULL,
 };
 
@@ -122,6 +129,7 @@ void BeginPopup(const char* name, int help) {
 	for(i = 0; name[i] != 0; i++) {
 		if(name[i] == '&') {
 			c = name[i + 1];
+			break;
 		}
 	}
 
@@ -162,6 +170,7 @@ void MenuItem(const char* name) {
 	for(i = 0; name[i] != 0; i++) {
 		if(name[i] == '&') {
 			c = name[i + 1];
+			break;
 		}
 	}
 
@@ -186,19 +195,86 @@ void MenuItemSeparator(void) {
 }
 
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
-	XtVaSetValues((Widget)opaque, XmNx, x, XmNy, y, XmNwidth, w, XmNheight, h, NULL);
+	XtVaSetValues((Widget)opaque, XmNleftAttachment, XmATTACH_NONE, XmNtopAttachment, XmATTACH_NONE, XmNx, x, XmNy, y, NULL);
+	XtVaSetValues((Widget)opaque, XmNwidth, w, XmNheight, h, NULL);
 }
 
 void Tree(const char* name, int left, int top, int right, int bottom) {
 	char   tmp[256];
 	char   idname[128];
-	Widget w;
+	Widget w, f;
+
+	sprintf(tmp, "TREEFRAME_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	f = XtVaCreateWidget(idname, xmFrameWidgetClass, form, NULL);
+	XtManageChild(f);
 
 	sprintf(tmp, "TREE_%s", name);
 	FishyMailSanitizeName(tmp, idname);
 
-	w = XtVaCreateWidget(idname, xmOutlineWidgetClass, form, NULL);
+	w = XtVaCreateWidget(idname, xmOutlineWidgetClass, f, NULL);
 	XtManageChild(w);
 
-	FishyMailAddWidget(w, left, top, right, bottom);
+	FishyMailAddWidget(f, left, top, right, bottom);
+}
+
+void List(const char* name, int left, int top, int right, int bottom) {
+	char   tmp[256];
+	char   idname[128];
+	Widget w, f;
+
+	sprintf(tmp, "LISTFRAME_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	f = XtVaCreateWidget(idname, xmScrolledWindowWidgetClass, form, XmNscrollBarPlacement, XmBOTTOM_RIGHT, NULL);
+	XtManageChild(f);
+
+	sprintf(tmp, "LIST_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	w = XtVaCreateWidget(idname, xmListWidgetClass, f, XmNscrollBarDisplayPolicy, XmSTATIC, NULL);
+	XtManageChild(w);
+
+	FishyMailAddWidget(f, left, top, right, bottom);
+}
+
+void ReadOnlyText(const char* name, int left, int top, int right, int bottom) {
+	char   tmp[256];
+	char   idname[128];
+	Widget w, f;
+
+	sprintf(tmp, "READONLYTEXTFRAME_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	f = XtVaCreateWidget(idname, xmScrolledWindowWidgetClass, form, NULL);
+	XtManageChild(f);
+
+	sprintf(tmp, "READONLYTEXT_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	w = XtVaCreateWidget(idname, xmTextWidgetClass, f, XmNeditMode, XmMULTI_LINE_EDIT, XmNeditable, FALSE, NULL);
+	XtManageChild(w);
+
+	FishyMailAddWidget(f, left, top, right, bottom);
+}
+
+void Text(const char* name, int left, int top, int right, int bottom) {
+	char   tmp[256];
+	char   idname[128];
+	Widget w, f;
+
+	sprintf(tmp, "TEXTFRAME_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	f = XtVaCreateWidget(idname, xmScrolledWindowWidgetClass, form, NULL);
+	XtManageChild(f);
+
+	sprintf(tmp, "TEXT_%s", name);
+	FishyMailSanitizeName(tmp, idname);
+
+	w = XtVaCreateWidget(idname, xmTextWidgetClass, f, XmNeditMode, XmMULTI_LINE_EDIT, NULL);
+	XtManageChild(w);
+
+	FishyMailAddWidget(f, left, top, right, bottom);
 }

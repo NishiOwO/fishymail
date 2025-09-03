@@ -15,7 +15,7 @@ int yywrap(void){
 
 %token STRING NEWLINE COMMENT SPACE IDENTIFIER NUMBER
 %token POPUP SETUP HELPPOPUP MENUITEM SET MENUITEMSEPARATOR
-%token TREE
+%token TREE LIST READONLYTEXT TEXT
 %start sequence
 
 %union {
@@ -48,6 +48,15 @@ command_body	: POPUP SPACE STRING {
 }
 		| TREE SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER {
 	Tree($<string>3, $<number>5, $<number>7, $<number>9, $<number>11);
+}
+		| LIST SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER {
+	List($<string>3, $<number>5, $<number>7, $<number>9, $<number>11);
+}
+		| READONLYTEXT SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER {
+	ReadOnlyText($<string>3, $<number>5, $<number>7, $<number>9, $<number>11);
+}
+		| TEXT SPACE STRING SPACE NUMBER SPACE NUMBER SPACE NUMBER SPACE NUMBER {
+	Text($<string>3, $<number>5, $<number>7, $<number>9, $<number>11);
 }
 		| SET SPACE IDENTIFIER '=' IDENTIFIER {
 	/* ignore */

@@ -17,8 +17,6 @@
 Set Title=FishyMail
 Set EmbedFile=src/ui.c
 
-Tree "TREE" 0 0 -200 0
-
 Popup "&File"
 	MenuItem "&Quit"
 
@@ -28,3 +26,7 @@ Popup "&View"
 
 HelpPopup "&Help"
 	MenuItem "&Version"
+
+Tree "TREE" 0 0 -200 0
+List "MAIL" 200 0 0 -100
+ReadOnlyText "TEXT" 200 100 0 0

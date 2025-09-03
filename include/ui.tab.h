@@ -14,6 +14,9 @@
 #define SET 267
 #define MENUITEMSEPARATOR 268
 #define TREE 269
+#define LIST 270
+#define READONLYTEXT 271
+#define TEXT 272
 #ifdef YYSTYPE
 #undef  YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1

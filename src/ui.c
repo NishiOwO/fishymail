@@ -25,8 +25,6 @@ const char* ui_text = \
 	"Set Title=FishyMail\n" \
 	"Set EmbedFile=src/ui.c\n" \
 	"\n" \
-	"Tree \"TREE\" 0 0 -200 0\n" \
-	"\n" \
 	"Popup \"&File\"\n" \
 	"	MenuItem \"&Quit\"\n" \
 	"\n" \
@@ -35,7 +33,11 @@ const char* ui_text = \
 	"Popup \"&View\"\n" \
 	"\n" \
 	"HelpPopup \"&Help\"\n" \
-	"	MenuItem \"&Version\"\n";
+	"	MenuItem \"&Version\"\n" \
+	"\n" \
+	"Tree \"TREE\" 0 0 -200 0\n" \
+	"List \"MAIL\" 200 0 0 -100\n" \
+	"ReadOnlyText \"TEXT\" 200 100 0 0\n";
 
 extern void* yy_scan_string(const char* str);
 extern void yy_delete_buffer(void* buffer);

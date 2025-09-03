@@ -35,6 +35,9 @@ void BeginPopup(const char* name, int help);
 void MenuItem(const char* name);
 void MenuItemSeparator(void);
 void Tree(const char* name, int left, int top, int right, int bottom);
+void List(const char* name, int left, int top, int right, int bottom);
+void ReadOnlyText(const char* name, int left, int top, int right, int bottom);
+void Text(const char* name, int left, int top, int right, int bottom);
 
 /* Parser */
 void FishyMailPrepareUI(void);

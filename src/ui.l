@@ -73,6 +73,18 @@ Tree {
 	return TREE;
 }
 
+ReadOnlyText {
+	return READONLYTEXT;
+}
+
+Text {
+	return TEXT;
+}
+
+List {
+	return LIST;
+}
+
 [A-Za-z\./_\-]+ {
 	return IDENTIFIER;
 }
