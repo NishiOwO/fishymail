@@ -3,7 +3,7 @@
 
 const char* FishyMailVersion = "1.0.0";
 
-char* FishyMailGetVersion(void){
+char* FishyMailGetVersion(void) {
 	char* ver = malloc(512);
 
 	strcpy(ver, FishyMailVersion);

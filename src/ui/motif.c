@@ -43,18 +43,19 @@ static struct {
 } args;
 
 static Atom quit_atom;
-void	    FishyMailStartQuit(void) {
-	       XEvent ev;
 
-	       ev.xclient.type	       = ClientMessage;
-	       ev.xclient.send_event   = True;
-	       ev.xclient.message_type = quit_atom;
-	       ev.xclient.format       = 32;
-	       ev.xclient.serial       = 0;
-	       ev.xclient.window       = XtWindow(top);
-	       ev.xclient.data.l[0]    = quit_atom;
+void FishyMailStartQuit(void) {
+	XEvent ev;
 
-	       XSendEvent(XtDisplay(top), XtWindow(top), False, NoEventMask, &ev);
+	ev.xclient.type		= ClientMessage;
+	ev.xclient.send_event	= True;
+	ev.xclient.message_type = quit_atom;
+	ev.xclient.format	= 32;
+	ev.xclient.serial	= 0;
+	ev.xclient.window	= XtWindow(top);
+	ev.xclient.data.l[0]	= quit_atom;
+
+	XSendEvent(XtDisplay(top), XtWindow(top), False, NoEventMask, &ev);
 }
 
 static void* ui_thread_routine(void* arg) {
@@ -80,7 +81,7 @@ static void* ui_thread_routine(void* arg) {
 
 			FishyMailLayout(geo.width, geo.height - geo2.height);
 		} else if(ev.type == ClientMessage && ev.xclient.message_type == quit_atom) {
-			DebugLog("Quit atom received\n");
+			DebugLog("Quit atom received");
 			break;
 		}
 	}
