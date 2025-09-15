@@ -91,7 +91,7 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		DestroyWindow(hWnd);
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
-		if(m == GetMenuFromName("HELP_VERSION")) {
+		if(m == GetMenuFromName("MENU_HELP_VERSION")) {
 			MSGBOXPARAMS p;
 			char	     buf[512];
 			buf[0] = 0;
@@ -248,7 +248,7 @@ static char  PopupName[128];
 static int   PopupPosition = 0;
 
 void BeginPopup(const char* name, int help) {
-	sprintf(PopupName, "%s", name);
+	sprintf(PopupName, "MENU_%s", name);
 
 	hPopupMenu = CreatePopupMenu();
 	AppendMenu(hMenu, MF_POPUP | MF_STRING, (UINT_PTR)hPopupMenu, name);
