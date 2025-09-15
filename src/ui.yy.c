@@ -509,9 +509,9 @@ int yy_flex_debug = 0;
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "src/ui.l"
+#line 1 "parser/ui.l"
 /* $Id$ */
-#line 4 "src/ui.l"
+#line 4 "parser/ui.l"
 #include <fishymail.h>
 #include <ui.tab.h>
 
@@ -728,7 +728,7 @@ YY_DECL
 		}
 
 	{
-#line 12 "src/ui.l"
+#line 12 "parser/ui.l"
 
 
 #line 734 "lex.yy.c"
@@ -790,7 +790,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 14 "src/ui.l"
+#line 14 "parser/ui.l"
 {
 	buf = malloc(1);
 	buf[0] = 0;
@@ -800,7 +800,7 @@ YY_RULE_SETUP
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 20 "src/ui.l"
+#line 20 "parser/ui.l"
 {
 	char* tmp = buf;
 	buf = malloc(strlen(tmp) + strlen(yytext) + 1);
@@ -811,7 +811,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 28 "src/ui.l"
+#line 28 "parser/ui.l"
 {
 	char* tmp = buf;
 	buf = malloc(strlen(tmp) + 1 + 1);
@@ -822,7 +822,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 36 "src/ui.l"
+#line 36 "parser/ui.l"
 {
 	strcpy(yylval.string, buf);
 	BEGIN(INITIAL);
@@ -832,7 +832,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 43 "src/ui.l"
+#line 43 "parser/ui.l"
 {
 	yylval.number = atoi(yytext);
 	return NUMBER;
@@ -840,77 +840,77 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 48 "src/ui.l"
+#line 48 "parser/ui.l"
 {
 	return COMMENT;
 }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 52 "src/ui.l"
+#line 52 "parser/ui.l"
 {
 	return SET;
 }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 56 "src/ui.l"
+#line 56 "parser/ui.l"
 {
 	return HELPPOPUP;
 }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 60 "src/ui.l"
+#line 60 "parser/ui.l"
 {
 	return POPUP;
 }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 64 "src/ui.l"
+#line 64 "parser/ui.l"
 {
 	return MENUITEMSEPARATOR;
 }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 68 "src/ui.l"
+#line 68 "parser/ui.l"
 {
 	return MENUITEM;
 }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 72 "src/ui.l"
+#line 72 "parser/ui.l"
 {
 	return TREE;
 }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 76 "src/ui.l"
+#line 76 "parser/ui.l"
 {
 	return READONLYTEXT;
 }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 80 "src/ui.l"
+#line 80 "parser/ui.l"
 {
 	return TEXT;
 }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 84 "src/ui.l"
+#line 84 "parser/ui.l"
 {
 	return LIST;
 }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 88 "src/ui.l"
+#line 88 "parser/ui.l"
 {
 	return IDENTIFIER;
 }
@@ -918,28 +918,28 @@ YY_RULE_SETUP
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 92 "src/ui.l"
+#line 92 "parser/ui.l"
 {
 	return NEWLINE;
 }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 96 "src/ui.l"
+#line 96 "parser/ui.l"
 {
 	return SPACE;
 }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 100 "src/ui.l"
+#line 100 "parser/ui.l"
 {
 	return yytext[0];
 }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 104 "src/ui.l"
+#line 104 "parser/ui.l"
 ECHO;
 	YY_BREAK
 #line 945 "lex.yy.c"
@@ -1948,6 +1948,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 104 "src/ui.l"
+#line 104 "parser/ui.l"
 
 

@@ -140,8 +140,8 @@ print OUT ("#endif\n");
 close(OUT);
 
 print("Running yacc/lex\n");
-system("yacc -d src/ui.y") == 0        or die;
-system("lex --nounistd src/ui.l") == 0 or die;
+system("yacc -d parser/ui.y") == 0        or die;
+system("lex --nounistd parser/ui.l") == 0 or die;
 
 rename("y.tab.c",  "src/ui.tab.c");
 rename("y.tab.h",  "include/ui.tab.h");

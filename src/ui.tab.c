@@ -19,7 +19,7 @@
 
 #define YYPURE 0
 
-#line 4 "src/ui.y"
+#line 4 "parser/ui.y"
 #include <fishymail.h>
 
 int yyerror(const char* error){
@@ -36,7 +36,7 @@ int yywrap(void){
 #endif
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
-#line 21 "src/ui.y"
+#line 21 "parser/ui.y"
 typedef union {
 	char string[128];
 	int number;
@@ -1034,63 +1034,63 @@ yyreduce:
     switch (yyn)
     {
 case 7:
-#line 37 "src/ui.y"
+#line 37 "parser/ui.y"
 	{
 	BeginPopup(yystack.l_mark[0].string, 0);
 }
 #line 1 ""
 break;
 case 8:
-#line 40 "src/ui.y"
+#line 40 "parser/ui.y"
 	{
 	BeginPopup(yystack.l_mark[0].string, 1);
 }
 #line 1 ""
 break;
 case 9:
-#line 43 "src/ui.y"
+#line 43 "parser/ui.y"
 	{
 	MenuItem(yystack.l_mark[0].string);
 }
 #line 1 ""
 break;
 case 10:
-#line 46 "src/ui.y"
+#line 46 "parser/ui.y"
 	{
 	MenuItemSeparator();
 }
 #line 1 ""
 break;
 case 11:
-#line 49 "src/ui.y"
+#line 49 "parser/ui.y"
 	{
 	Tree(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
 #line 1 ""
 break;
 case 12:
-#line 52 "src/ui.y"
+#line 52 "parser/ui.y"
 	{
 	List(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
 #line 1 ""
 break;
 case 13:
-#line 55 "src/ui.y"
+#line 55 "parser/ui.y"
 	{
 	ReadOnlyText(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
 #line 1 ""
 break;
 case 14:
-#line 58 "src/ui.y"
+#line 58 "parser/ui.y"
 	{
 	Text(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
 #line 1 ""
 break;
 case 15:
-#line 61 "src/ui.y"
+#line 61 "parser/ui.y"
 	{
 	/* ignore */
 }
