@@ -18,7 +18,7 @@ LDFLAGS = $(P_LDFLAGS)
 LIBS = $(P_LIBS)
 
 OBJS = $(P_OBJS)
-OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o src/stb_ds.o src/util.o src/layout.o
+OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o src/stb_ds.o src/util.o src/layout.o src/debug.o
 
 .PHONY: all clean format propset
 .SUFFIXES: .c .o .rc .res

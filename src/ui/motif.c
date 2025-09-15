@@ -42,6 +42,21 @@ static struct {
 	char** argv;
 } args;
 
+static Atom quit_atom;
+void	    FishyMailStartQuit(void) {
+	       XEvent ev;
+
+	       ev.xclient.type	       = ClientMessage;
+	       ev.xclient.send_event   = True;
+	       ev.xclient.message_type = quit_atom;
+	       ev.xclient.format       = 32;
+	       ev.xclient.serial       = 0;
+	       ev.xclient.window       = XtWindow(top);
+	       ev.xclient.data.l[0]    = quit_atom;
+
+	       XSendEvent(XtDisplay(top), XtWindow(top), False, NoEventMask, &ev);
+}
+
 static void* ui_thread_routine(void* arg) {
 	XEvent ev;
 
@@ -64,6 +79,9 @@ static void* ui_thread_routine(void* arg) {
 			XtQueryGeometry(menubar, NULL, &geo2);
 
 			FishyMailLayout(geo.width, geo.height - geo2.height);
+		} else if(ev.type == ClientMessage && ev.xclient.message_type == quit_atom) {
+			DebugLog("Quit atom received\n");
+			break;
 		}
 	}
 
@@ -78,8 +96,12 @@ int main(int argc, char** argv) {
 	args.argv = argv;
 
 	XInitThreads();
+	DebugInit();
+
 	top = XtVaAppInitialize(&app, APP_CLASS, NULL, 0,
 				&args.argc, args.argv, fallback_resources, XtNtitle, "FishyMail", NULL);
+
+	quit_atom = XInternAtom(XtDisplay(top), "_FISHYMAIL_QUIT", False);
 
 	XpmCreatePixmapFromData(XtDisplay(top), DefaultRootWindow(XtDisplay(top)), fishymail, &icon_pixmap, &icon_mask, NULL);
 	XtVaSetValues(top, XmNiconPixmap, icon_pixmap, NULL);
@@ -114,6 +136,13 @@ void FishyMailShowMain(void) {
 
 static Widget popup_menu;
 static char   popup_name[128];
+
+static void MenuItemCallback(Widget w, XtPointer ptr, XtPointer data) {
+	(void)ptr;
+	(void)data;
+
+	FishyMailMenuItemPressed(XtName(w));
+}
 
 void BeginPopup(const char* name, int help) {
 	char	 tmp[128];
@@ -185,6 +214,7 @@ void MenuItem(const char* name) {
 				   XmNlabelString, str,
 				   XmNmnemonic, c,
 				   NULL);
+	XtAddCallback(w, XmNactivateCallback, MenuItemCallback, NULL);
 	XmStringFree(str);
 	XtManageChild(w);
 }

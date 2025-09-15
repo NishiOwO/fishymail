@@ -4,6 +4,7 @@
 
 #include <stb_ds.h>
 
+#include <winsock.h>
 #include <windows.h>
 #include <commctrl.h>
 
@@ -13,23 +14,26 @@ static HANDLE	 hUIReady;
 static HMENU	 hMenu;
 static HWND	 hMain;
 
-typedef struct menu {
+typedef struct id {
 	char* key;
 	int   value;
-} menu_t;
+} id_t;
 
-static menu_t* menus = NULL;
-
-static int GetMenuFromName(const char* name) {
-	int ind = shgeti(menus, name);
-	if(ind == -1) return -1;
-
-	return menus[ind].value;
+static id_t* ids = NULL;
+void	     FishyMailStartQuit(void) {
+	DestroyWindow(hMain);
 }
 
-static int AllocateMenuFromName(const char* name) {
-	int v = 100 + shlen(menus);
-	shput(menus, name, v);
+static int GetIDFromName(const char* name) {
+	int ind = shgeti(ids, name);
+	if(ind == -1) return -1;
+
+	return ids[ind].value;
+}
+
+static int AllocateIDFromName(const char* name) {
+	int v = 100 + shlen(ids);
+	shput(ids, name, v);
 
 	return v;
 }
@@ -91,30 +95,12 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 		DestroyWindow(hWnd);
 	} else if(msg == WM_COMMAND) {
 		int m = LOWORD(wp);
-		if(m == GetMenuFromName("MENU_HELP_VERSION")) {
-			MSGBOXPARAMS p;
-			char	     buf[512];
-			buf[0] = 0;
-
-			sprintf(buf + strlen(buf), "FishyMail, Email/NNTP client\r\n");
-			sprintf(buf + strlen(buf), "Version %s\r\n", VERSION);
-			sprintf(buf + strlen(buf), "Copyright (C) 2025 Nishi\r\n");
-			sprintf(buf + strlen(buf), "\r\n");
-			sprintf(buf + strlen(buf), "https://github.com/nishiowo/fishymail");
-
-			p.cbSize	     = sizeof(p);
-			p.hwndOwner	     = hWnd;
-			p.hInstance	     = hInst;
-			p.lpszText	     = buf;
-			p.lpszCaption	     = "Version";
-			p.dwStyle	     = MB_USERICON | MB_OK;
-			p.lpszIcon	     = "FISHYMAIL";
-			p.dwContextHelpId    = 0;
-			p.lpfnMsgBoxCallback = NULL;
-			p.dwLanguageId	     = 0;
-
-			MessageBoxIndirect(&p);
-		} else {
+		int i;
+		for(i = 0; i < shlen(ids); i++) {
+			if(ids[i].value == m && strlen(ids[i].key) > 5 && memcmp(ids[i].key, "MENU_", 5) == 0) {
+				FishyMailMenuItemPressed(ids[i].key);
+				break;
+			}
 		}
 	} else if(msg == WM_CTLCOLORSTATIC) {
 		return DefWindowProc(hWnd, WM_CTLCOLOREDIT, wp, lp);
@@ -210,11 +196,17 @@ static BOOL InitClass(const char* name, WNDPROC proc) {
 }
 
 int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, int nCmdShow) {
-	DWORD id;
+	DWORD	id;
+	WSADATA wsa;
 
 	(void)hPrevInst;
 	(void)lpsCmdLine;
 	(void)nCmdShow;
+
+	DebugInit();
+
+	WSAStartup(MAKEWORD(1, 1), &wsa);
+	DebugLog("WinSock initialized, version %d.%d", LOBYTE(wsa.wVersion), HIBYTE(wsa.wVersion));
 
 	hInst = hCurInst;
 
@@ -222,7 +214,7 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 	if(!InitClass("FishyMailSplash", SplashWndProc)) return 0;
 
 	hMenu = CreateMenu();
-	sh_new_strdup(menus);
+	sh_new_strdup(ids);
 
 	InitCommonControls();
 
@@ -274,7 +266,7 @@ void MenuItem(const char* name) {
 	sprintf(tmp, "%s_%s", PopupName, name);
 	FishyMailSanitizeName(tmp, idname);
 
-	AppendMenu(hPopupMenu, MF_STRING, AllocateMenuFromName(idname), name);
+	AppendMenu(hPopupMenu, MF_STRING, AllocateIDFromName(idname), name);
 }
 
 void MenuItemSeparator(void) {
@@ -293,7 +285,7 @@ void Tree(const char* name, int left, int top, int right, int bottom) {
 	sprintf(tmp, "TREE_%s", name);
 	FishyMailSanitizeName(tmp, idname);
 
-	wnd = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+	wnd = CreateWindow(WC_TREEVIEW, "", WS_CHILD | WS_BORDER | WS_VISIBLE | TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateIDFromName(idname), hInst, NULL);
 
 	FishyMailAddWidget(wnd, left, top, right, bottom);
 }
@@ -306,7 +298,7 @@ void List(const char* name, int left, int top, int right, int bottom) {
 	sprintf(tmp, "LIST_%s", name);
 	FishyMailSanitizeName(tmp, idname);
 
-	wnd = CreateWindow("LISTBOX", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+	wnd = CreateWindow("LISTBOX", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | LBS_NOTIFY | LBS_NOINTEGRALHEIGHT, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateIDFromName(idname), hInst, NULL);
 
 	FishyMailAddWidget(wnd, left, top, right, bottom);
 }
@@ -319,7 +311,7 @@ void ReadOnlyText(const char* name, int left, int top, int right, int bottom) {
 	sprintf(tmp, "READONLYTEXT_%s", name);
 	FishyMailSanitizeName(tmp, idname);
 
-	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE | ES_READONLY, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateIDFromName(idname), hInst, NULL);
 
 	FishyMailAddWidget(wnd, left, top, right, bottom);
 }
@@ -332,7 +324,7 @@ void Text(const char* name, int left, int top, int right, int bottom) {
 	sprintf(tmp, "TEXT_%s", name);
 	FishyMailSanitizeName(tmp, idname);
 
-	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateMenuFromName(idname), hInst, NULL);
+	wnd = CreateWindow("EDIT", "", WS_CHILD | WS_BORDER | WS_VISIBLE | WS_VSCROLL | WS_HSCROLL | ES_MULTILINE, 0, 0, 0, 0, hMain, (HMENU)(ULONG_PTR)AllocateIDFromName(idname), hInst, NULL);
 
 	FishyMailAddWidget(wnd, left, top, right, bottom);
 }
