@@ -1,5 +1,7 @@
 # $Id$
 
+include config.mk
+
 # format and propset files
 SRCS = `find include src -name "*.c" \
 	! -name "ui.tab.c" \
@@ -13,9 +15,9 @@ PERL_SRCS = `find tools -name "*.pl"`
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
 
-CFLAGS = $(U_CFLAGS) $(P_CFLAGS) -I include -Wall -Wextra -Wno-unused-function
-LDFLAGS = $(U_LDFLAGS) $(P_LDFLAGS)
-LIBS = $(U_LIBS) $(P_LIBS)
+CFLAGS = $(C_CFLAGS) $(U_CFLAGS) $(P_CFLAGS) -I include -Wall -Wextra -Wno-unused-function
+LDFLAGS = $(C_LDFLAGS) $(U_LDFLAGS) $(P_LDFLAGS)
+LIBS = $(C_LIBS) $(U_LIBS) $(P_LIBS)
 
 OBJS = $(P_OBJS)
 OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o src/stb_ds.o src/util.o src/layout.o src/debug.o src/version.o

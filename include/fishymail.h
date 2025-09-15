@@ -38,7 +38,9 @@ void DebugLog(const char* fmt, ...);
 #endif
 
 /* version.c */
-extern const char* FishyMailVersion;
+extern const char* FishyMailVersion; /* when this returns only major.minor.patch */
+				     /* ... */
+char* FishyMailGetVersion(void);     /* this returns "full" version */
 
 /* ui driver */
 void FishyMailShowMain(void);
