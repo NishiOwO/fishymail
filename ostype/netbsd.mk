@@ -5,4 +5,4 @@
 P_CFLAGS += -I/usr/X11R7/include -I/usr/pkg/include
 P_LDFLAGS += -L/usr/X11R7/lib -L/usr/pkg/lib
 
-include mk/Makefile.unix
+include ostype/unix.mk

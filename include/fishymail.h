@@ -37,6 +37,9 @@ void DebugLog(const char* fmt, ...);
 #define DebugLog(...)
 #endif
 
+/* version.c */
+extern const char* FishyMailVersion;
+
 /* ui driver */
 void FishyMailShowMain(void);
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);

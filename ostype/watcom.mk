@@ -7,4 +7,4 @@ P_CFLAGS = -b win32 -I$(WATCOM)/h/nt -std=c99
 P_LDFLAGS = -b win32
 AFTERCMD = wrc -q -i=include -i=$(WATCOM)/h/nt -bt=nt src/fishymail.rc fishymail.exe
 
-include mk/Makefile.windows
+include ostype/windows.mk

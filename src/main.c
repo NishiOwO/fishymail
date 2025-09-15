@@ -5,6 +5,7 @@
 void FishyMailMainRoutine(void) {}
 
 void FishyMailMainUIRoutine(void) {
+	DebugLog("FishyMail %s", FishyMailVersion);
 	FishyMailPrepareUI();
 	FishyMailShowMain();
 }

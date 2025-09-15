@@ -3,4 +3,4 @@
 
 CROSS = x86_64-w64-mingw32-
 
-include mk/Makefile.windows
+include ostype/windows.mk

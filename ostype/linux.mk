@@ -5,4 +5,4 @@
 P_CFLAGS +=
 P_LDFLAGS +=
 
-include mk/Makefile.unix
+include ostype/unix.mk
