@@ -19,7 +19,7 @@ sub make_id {
 
 sub banner {
     print OUT ("/**\n");
-    print OUT (" * This file is auto-generated using ./tool/gui.pl\n");
+    print OUT (" * This file is auto-generated using ./tools/gui.pl\n");
     print OUT (" * DO NOT EDIT MANUALLY\n");
     print OUT (" */\n");
     print OUT ("\n");

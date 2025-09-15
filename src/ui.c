@@ -1,5 +1,5 @@
 /**
- * This file is auto-generated using ./tool/gui.pl
+ * This file is auto-generated using ./tools/gui.pl
  * DO NOT EDIT MANUALLY
  */
 
