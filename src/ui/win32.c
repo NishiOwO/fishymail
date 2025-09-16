@@ -4,7 +4,6 @@
 
 #include <stb_ds.h>
 
-#include <winsock.h>
 #include <windows.h>
 #include <commctrl.h>
 
@@ -196,17 +195,13 @@ static BOOL InitClass(const char* name, WNDPROC proc) {
 }
 
 int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, int nCmdShow) {
-	DWORD	id;
-	WSADATA wsa;
+	DWORD id;
 
 	(void)hPrevInst;
 	(void)lpsCmdLine;
 	(void)nCmdShow;
 
 	DebugInit();
-
-	WSAStartup(MAKEWORD(1, 1), &wsa);
-	DebugLog("WinSock initialized, version %d.%d", LOBYTE(wsa.wVersion), HIBYTE(wsa.wVersion));
 
 	hInst = hCurInst;
 

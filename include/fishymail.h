@@ -42,6 +42,9 @@ extern const char* FishyMailVersion; /* when this returns only major.minor.patch
 				     /* ... */
 char* FishyMailGetVersion(void);     /* this returns "full" version */
 
+/* socket.c */
+void FishyMailSocketInit(void);
+
 /* ui driver */
 void FishyMailShowMain(void);
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);

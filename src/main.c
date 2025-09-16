@@ -9,6 +9,8 @@ void FishyMailMainUIRoutine(void) {
 	DebugLog("FishyMail %s", s);
 	free(s);
 
+	FishyMailSocketInit();
+
 	FishyMailPrepareUI();
 	FishyMailShowMain();
 }
