@@ -67,15 +67,27 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 	}
 }
 #else
+#ifndef USE_UNSAFE_DNS
 static struct __res_state statp;
+#endif
 
 int FishyMailDNSInit(void) {
+#ifdef USE_UNSAFE_DNS
+	if(res_init() < 0) {
+		return -1;
+	}
+
+#ifdef DEBUG
+	_res.options |= RES_DEBUG;
+#endif
+#else
 	if(res_ninit(&statp) < 0) {
 		return -1;
 	}
 
 #ifdef DEBUG
 	statp.options |= RES_DEBUG;
+#endif
 #endif
 
 	return 0;
@@ -91,9 +103,13 @@ static int ToBINDType(int type) {
 void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 	ns_msg	      handle;
 	unsigned char answer[NS_MAXMSG];
-	int	      len = res_nquery(&statp, host, C_IN, ToBINDType(type), answer, sizeof(answer));
-	int	      i;
-	ns_rr	      rr;
+#ifdef USE_UNSAFE_DNS
+	int len = res_query(host, C_IN, ToBINDType(type), answer, sizeof(answer));
+#else
+	int len = res_nquery(&statp, host, C_IN, ToBINDType(type), answer, sizeof(answer));
+#endif
+	int   i;
+	ns_rr rr;
 
 	pkt->count = 0;
 
