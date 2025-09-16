@@ -7,7 +7,7 @@
 #endif
 
 void DebugInit(void) {
-#if defined(_WIN32) && 0
+#if defined(_WIN32) && 1
 	FreeConsole();
 	AllocConsole();
 	SetConsoleTitle("FishyMail Win32 Debug Window");
