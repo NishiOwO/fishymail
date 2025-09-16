@@ -23,9 +23,9 @@ typedef struct FishyMailDNSPacket {
 } FishyMailDNSPacket_t;
 
 enum FishyMailDNSPacket_type {
-	DNSPKT_MX = 0, /* char* */
-	DNSPKT_A,      /* struct in_addr */
-	DNSPKT_AAAA    /* struct in6_addr */
+	DNSPACKET_MX = 0, /* char* */
+	DNSPACKET_A,      /* struct in_addr */
+	DNSPACKET_AAAA    /* struct in6_addr */
 };
 
 /* main.c */
