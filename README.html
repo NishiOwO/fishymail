@@ -1,0 +1,104 @@
+<!-- $Id$ -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	</head>
+	<body>
+		<h1>FishyMail</h1>
+		<p>
+			FishyMail is a lightweight, and simple email client written in C89.
+		</p>
+		<p>
+			This release supports following platforms:
+		</p>
+		<ul>
+			<li>NetBSD 10.0 or newer</li>
+			<li>Windows 95/NT 4 or newer</li>
+			<li>Debian GNU/Linux 12.0 or newer</li>
+		</ul>
+		<p>
+			with following GUI:
+		</p>
+		<ul>
+			<li>Motif for Unix and Unix-likes</li>
+			<li>Pure Win32 API for Windows</li>
+		</ul>
+		<p>
+			and with following features:
+		</p>
+		<ul>
+			<li>SASL authentication, using Cyrus SASL 2.x</li>
+			<li>SSL/TLS using OpenSSL</li>
+		</ul>
+		<p>
+			Source code is available at:
+			<a href="http://svn2.nishi.boats/svn/fishymail">Subversion</a>
+		</p>
+		<hr>
+		<h2>Building</h2>
+		<p>
+			Building with makefiles in <code>ostype</code> directory should be enough for normal users. But, you can also modify <code>config.mk</code> to change default options.
+		</p>
+		<hr>
+		<h2>Makefile variables</h2>
+		<table border="1">
+			<tr>
+				<th>P_CFLAGS</th>
+				<td>Platform dependent flags for compiling</td>
+			</tr>
+			<tr>
+				<th>P_LDFLAGS</th>
+				<td>Platform dependent flags for linking</td>
+			</tr>
+			<tr>
+				<th>P_LIBS</th>
+				<td>Platform dependent libraries</td>
+			</tr>
+			<tr>
+				<th>C_CFLAGS</th>
+				<td>Config dependent flags for compiling</td>
+			</tr>
+			<tr>
+				<th>C_LDFLAGS</th>
+				<td>Config dependent flags for linking</td>
+			</tr>
+			<tr>
+				<th>C_LIBS</th>
+				<td>Config dependent libraries</td>
+			</tr>
+			<tr>
+				<th>U_CFLAGS</th>
+				<td>User customizable flags for compiling</td>
+			</tr>
+			<tr>
+				<th>U_LDFLAGS</th>
+				<td>User customizable flags for linking</td>
+			</tr>
+			<tr>
+				<th>U_LIBS</th>
+				<td>User customizable libraries</td>
+			</tr>
+		</table>
+		<hr>
+		<h2>Known "issues"</h2>
+		<h3>Platforms with musl libc</h3>
+		<p>
+			Because thread-safe functions for libresolv are missing in musl libc, you have to compile with:
+		</p>
+		<blockquote>
+			U_CFLAGS=-DUSE_UNSAFE_DNS
+		</blockquote>
+		<p>
+			or use <code>ostype/musl.mk</code>.
+		</p>
+		<h3>Windows</h3>
+		<p>
+			IPv6 code is disabled.
+		</p>
+		<hr>
+		<h2>Contact</h2>
+		<ul>
+			<li>Nishi &lt;nishi@nishi.boats&gt;</li>
+		</ul>
+	</body>
+</html>
