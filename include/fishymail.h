@@ -13,10 +13,10 @@
 #include <unistd.h>
 #endif
 
-#define VERSION "1.00"
+typedef void* SOCKET_HANDLE;
 
 /* main.c */
-int FishyMailMainRoutine(void);
+int  FishyMailMainRoutine(void);
 void FishyMailMainUIRoutine(void);
 void FishyMailMenuItemPressed(const char* str);
 

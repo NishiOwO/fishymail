@@ -3,12 +3,12 @@
 #include <fishymail.h>
 
 int FishyMailMainRoutine(void) {
-	int st;
+	int   st;
 	char* s = FishyMailGetVersion();
 	DebugLog("FishyMail %s", s);
 	free(s);
 
-	if((st = FishyMailSocketInit()) != 0){
+	if((st = FishyMailSocketInit()) != 0) {
 		return st;
 	}
 

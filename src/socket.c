@@ -13,6 +13,14 @@
 #include <winsock.h>
 #endif
 
+typedef struct socket {
+	int fd;
+#ifdef USE_SSL
+	SSL_CTX* ctx;
+	SSL*	 ssl;
+#endif
+} socket_t;
+
 int FishyMailSocketInit(void) {
 #ifdef _WIN32
 	{
@@ -23,7 +31,7 @@ int FishyMailSocketInit(void) {
 #endif
 #ifdef USE_CYRUS_SASL2
 	{
-		if(sasl_client_init(NULL) != SASL_OK){
+		if(sasl_client_init(NULL) != SASL_OK) {
 			DebugLog("SASL failed");
 			return -1;
 		}
@@ -37,4 +45,15 @@ int FishyMailSocketInit(void) {
 	}
 #endif
 	return 0;
+}
+
+SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
+	socket_t* s = malloc(sizeof(*s));
+
+	/* TODO: implement */
+	(void)host;
+	(void)port;
+	(void)ssl;
+
+	return (SOCKET_HANDLE)s;
 }
