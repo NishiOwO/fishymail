@@ -38,6 +38,10 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 		/* https://ftp.zx.net.nz/pub/Patches/ftp.microsoft.com/MISC/KB/en-us/831/226.HTM */
 		for(; prec != NULL; prec = prec->pNext) {
 			if(type == DNSPACKET_MX) {
+				/**
+				 * XXX: appearantly broken on wine
+				 *      but works on Windows 7
+				 */
 				if(pkt->count < MAXDNSPACKET) {
 					pkt->result[pkt->count++] = malloc(strlen(prec->Data.MX.pNameExchange) + 1);
 					strcpy(pkt->result[pkt->count - 1], prec->Data.MX.pNameExchange);
