@@ -2,8 +2,6 @@
 
 #include <fishymail.h>
 
-#include <winsock.h>
-
 int FishyMailMainRoutine(void) {
 	int   st;
 	char* s = FishyMailGetVersion();
