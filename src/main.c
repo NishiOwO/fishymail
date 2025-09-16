@@ -12,6 +12,10 @@ int FishyMailMainRoutine(void) {
 		return st;
 	}
 
+	if((st = FishyMailDNSInit()) != 0) {
+		return st;
+	}
+
 	return 0;
 }
 

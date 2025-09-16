@@ -115,67 +115,6 @@ static LRESULT CALLBACK MainWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
 	return 0;
 }
 
-typedef struct splash {
-	HDC	hDC;
-	HBITMAP hBitmap;
-} splash_t;
-static LRESULT CALLBACK SplashWndProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp) {
-	if(msg == WM_DESTROY) {
-		splash_t* s = (splash_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-		DeleteDC(s->hDC);
-		DeleteObject(s->hBitmap);
-		free(s);
-	} else if(msg == WM_CREATE) {
-		RECT	  rc;
-		HDC	  dc;
-		DWORD	  d = (DWORD)GetWindowLongPtr(hWnd, GWL_STYLE);
-		splash_t* s = malloc(sizeof(*s));
-
-		GetClientRect(hWnd, &rc);
-
-		dc = GetDC(hWnd);
-
-		s->hBitmap = CreateCompatibleBitmap(dc, rc.right - rc.left, rc.bottom - rc.top);
-		s->hDC	   = CreateCompatibleDC(dc);
-		SelectObject(s->hDC, s->hBitmap);
-
-		ReleaseDC(hWnd, dc);
-
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)s);
-
-		if(!(d & WS_CAPTION)) {
-			SetTimer(hWnd, 100, 3 * 1000, NULL);
-		}
-	} else if(msg == WM_TIMER || msg == WM_LBUTTONDOWN) {
-		DestroyWindow(hWnd);
-	} else if(msg == WM_ERASEBKGND) {
-	} else if(msg == WM_PAINT) {
-		PAINTSTRUCT ps;
-		RECT	    rc;
-		HDC	    hDC;
-		char	    buf[128];
-		splash_t*   s = (splash_t*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-
-		GetClientRect(hWnd, &rc);
-
-		ShowBitmapSize(s->hDC, "SPLASH", 0, 0, rc.right - rc.left, rc.bottom - rc.top);
-
-		sprintf(buf, "Version %s", VERSION);
-		SetBkMode(s->hDC, TRANSPARENT);
-		SetTextAlign(s->hDC, TA_BOTTOM | TA_RIGHT);
-		SetTextColor(s->hDC, RGB(0xff, 0xff, 0xff));
-		TextOut(s->hDC, rc.right - rc.left - 8, rc.bottom - rc.top - 8, buf, strlen(buf));
-
-		hDC = BeginPaint(hWnd, &ps);
-		StretchBlt(hDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, s->hDC, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SRCCOPY);
-		EndPaint(hWnd, &ps);
-	} else {
-		return DefWindowProc(hWnd, msg, wp, lp);
-	}
-	return 0;
-}
-
 static BOOL InitClass(const char* name, WNDPROC proc) {
 	WNDCLASSEX wc;
 	wc.cbSize	 = sizeof(wc);
@@ -206,7 +145,6 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 	hInst = hCurInst;
 
 	if(!InitClass("FishyMailMain", MainWndProc)) return 0;
-	if(!InitClass("FishyMailSplash", SplashWndProc)) return 0;
 
 	hMenu = CreateMenu();
 	sh_new_strdup(ids);

@@ -45,6 +45,9 @@ char* FishyMailGetVersion(void);     /* this returns "full" version */
 /* socket.c */
 int FishyMailSocketInit(void);
 
+/* dns.c */
+int FishyMailDNSInit(void);
+
 /* ui driver */
 void FishyMailShowMain(void);
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);
