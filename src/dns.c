@@ -10,26 +10,16 @@
 #include <netdb.h>
 #endif
 
-#define MAXDNSPKT 16
-
-typedef struct dnspkt {
-	int   count;
-	void* result[MAXDNSPKT];
-} dnspkt_t;
-
-enum dnspkt_type {
-	DNSPKT_MX = 0,
-	DNSPKT_A,
-	DNSPKT_AAAA
-};
-
-static void FreeDNSPKT(dnspkt_t* pkt) {
+void FishyMailFreeDNSPacket(FishyMailDNSPacket_t* pkt) {
 	int i;
 	for(i = 0; i < pkt->count; i++) free(pkt->result[i]);
 }
 
 #ifdef _WIN32
 void FishyMailDNSInit(void) {
+}
+
+void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 }
 #else
 static struct __res_state statp;
@@ -53,7 +43,7 @@ static int ToBINDType(int type) {
 	return -1;
 }
 
-static void DNSLookup(dnspkt_t* pkt, const char* host, int type) {
+void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 	ns_msg	      handle;
 	unsigned char answer[NS_MAXMSG];
 	int	      len = res_nquery(&statp, host, C_IN, ToBINDType(type), answer, sizeof(answer));
@@ -69,16 +59,16 @@ static void DNSLookup(dnspkt_t* pkt, const char* host, int type) {
 			char* mxname = malloc(MAXDNAME);
 			dn_expand(ns_msg_base(handle), ns_msg_base(handle) + ns_msg_size(handle), ns_rr_rdata(rr) + NS_INT16SZ, mxname, sizeof(mxname));
 
-			if(pkt->count < MAXDNSPKT) {
+			if(pkt->count < MAXDNSPACKET) {
 				pkt->result[pkt->count++] = mxname;
 			}
 		} else if(ns_rr_type(rr) == ns_t_a && type == DNSPKT_A) {
-			if(pkt->count < MAXDNSPKT) {
+			if(pkt->count < MAXDNSPACKET) {
 				pkt->result[pkt->count++] = malloc(sizeof(struct in_addr));
 				memcpy(pkt->result[pkt->count - 1], ns_rr_rdata(rr), sizeof(struct in_addr));
 			}
 		} else if(ns_rr_type(rr) == ns_t_aaaa && type == DNSPKT_AAAA) {
-			if(pkt->count < MAXDNSPKT) {
+			if(pkt->count < MAXDNSPACKET) {
 				pkt->result[pkt->count++] = malloc(sizeof(struct in6_addr));
 				memcpy(pkt->result[pkt->count - 1], ns_rr_rdata(rr), sizeof(struct in6_addr));
 			}

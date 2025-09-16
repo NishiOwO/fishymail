@@ -15,6 +15,19 @@
 
 typedef void* SOCKET_HANDLE;
 
+#define MAXDNSPACKET 16
+
+typedef struct FishyMailDNSPacket {
+	int   count;
+	void* result[MAXDNSPACKET];
+} FishyMailDNSPacket_t;
+
+enum FishyMailDNSPacket_type {
+	DNSPKT_MX = 0, /* char* */
+	DNSPKT_A,      /* struct in_addr */
+	DNSPKT_AAAA    /* struct in6_addr */
+};
+
 /* main.c */
 int  FishyMailMainRoutine(void);
 void FishyMailMainUIRoutine(void);
@@ -46,7 +59,9 @@ char* FishyMailGetVersion(void);     /* this returns "full" version */
 int FishyMailSocketInit(void);
 
 /* dns.c */
-int FishyMailDNSInit(void);
+int  FishyMailDNSInit(void);
+void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type);
+void FishyMailFreeDNSPacket(FishyMailDNSPacket_t* pkt);
 
 /* ui driver */
 void FishyMailShowMain(void);
