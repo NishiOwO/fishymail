@@ -13,7 +13,7 @@
 #include <winsock.h>
 #endif
 
-void FishyMailSocketInit(void) {
+int FishyMailSocketInit(void) {
 #ifdef _WIN32
 	{
 		WSADATA wsa;
@@ -23,6 +23,10 @@ void FishyMailSocketInit(void) {
 #endif
 #ifdef USE_CYRUS_SASL2
 	{
+		if(sasl_client_init(NULL) != SASL_OK){
+			DebugLog("SASL failed");
+			return -1;
+		}
 		DebugLog("Cyrus SASL %d.%d.%d", SASL_VERSION_MAJOR, SASL_VERSION_MINOR, SASL_VERSION_STEP);
 	}
 #endif
@@ -32,4 +36,5 @@ void FishyMailSocketInit(void) {
 		DebugLog("%s", OPENSSL_VERSION_TEXT);
 	}
 #endif
+	return 0;
 }

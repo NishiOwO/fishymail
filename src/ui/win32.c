@@ -213,7 +213,7 @@ int WINAPI WinMain(HINSTANCE hCurInst, HINSTANCE hPrevInst, LPSTR lpsCmdLine, in
 
 	InitCommonControls();
 
-	FishyMailMainRoutine();
+	if(FishyMailMainRoutine() != 0) return 0;
 
 	hUIReady = CreateEvent(NULL, FALSE, FALSE, NULL);
 

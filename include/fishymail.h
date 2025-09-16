@@ -16,7 +16,7 @@
 #define VERSION "1.00"
 
 /* main.c */
-void FishyMailMainRoutine(void);
+int FishyMailMainRoutine(void);
 void FishyMailMainUIRoutine(void);
 void FishyMailMenuItemPressed(const char* str);
 
@@ -43,7 +43,7 @@ extern const char* FishyMailVersion; /* when this returns only major.minor.patch
 char* FishyMailGetVersion(void);     /* this returns "full" version */
 
 /* socket.c */
-void FishyMailSocketInit(void);
+int FishyMailSocketInit(void);
 
 /* ui driver */
 void FishyMailShowMain(void);

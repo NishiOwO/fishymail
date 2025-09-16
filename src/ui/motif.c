@@ -91,6 +91,7 @@ static void* ui_thread_routine(void* arg) {
 
 int main(int argc, char** argv) {
 	int    ret;
+	int st;
 	Pixmap icon_pixmap, icon_mask;
 
 	args.argc = argc;
@@ -120,7 +121,7 @@ int main(int argc, char** argv) {
 
 	XtResizeWidget(top, 800, 600, 1);
 
-	FishyMailMainRoutine();
+	if((st = FishyMailMainRoutine()) != 0) return st;
 
 	ret = pthread_create(&ui_thread, NULL, ui_thread_routine, NULL);
 	if(ret != 0) {

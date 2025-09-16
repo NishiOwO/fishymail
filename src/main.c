@@ -2,15 +2,20 @@
 
 #include <fishymail.h>
 
-void FishyMailMainRoutine(void) {}
-
-void FishyMailMainUIRoutine(void) {
+int FishyMailMainRoutine(void) {
+	int st;
 	char* s = FishyMailGetVersion();
 	DebugLog("FishyMail %s", s);
 	free(s);
 
-	FishyMailSocketInit();
+	if((st = FishyMailSocketInit()) != 0){
+		return st;
+	}
 
+	return 0;
+}
+
+void FishyMailMainUIRoutine(void) {
 	FishyMailPrepareUI();
 	FishyMailShowMain();
 }
