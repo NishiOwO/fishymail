@@ -28,10 +28,6 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 		/* https://ftp.zx.net.nz/pub/Patches/ftp.microsoft.com/MISC/KB/en-us/831/226.HTM */
 		for(; prec != NULL; prec = prec->pNext) {
 			if(prec->wType == DNS_TYPE_MX && type == DNSPACKET_MX) {
-				/**
-				 * XXX: appearantly broken on wine
-				 *      but works on Windows 7
-				 */
 				if(pkt->count < MAXDNSPACKET) {
 					pkt->result[pkt->count++] = malloc(strlen(prec->Data.MX.pNameExchange) + 1);
 					strcpy(pkt->result[pkt->count - 1], prec->Data.MX.pNameExchange);
@@ -106,7 +102,7 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 		if(ns_rr_type(rr) == ns_t_mx && type == DNSPACKET_MX) {
 			if(pkt->count < MAXDNSPACKET) {
 				char* mxname = malloc(MAXDNAME);
-				dn_expand(ns_msg_base(handle), ns_msg_base(handle) + ns_msg_size(handle), ns_rr_rdata(rr) + NS_INT16SZ, mxname, sizeof(mxname));
+				dn_expand(ns_msg_base(handle), ns_msg_base(handle) + ns_msg_size(handle), ns_rr_rdata(rr) + NS_INT16SZ, mxname, MAXDNAME);
 				pkt->result[pkt->count++] = mxname;
 			}
 		} else if(ns_rr_type(rr) == ns_t_a && type == DNSPACKET_A) {
