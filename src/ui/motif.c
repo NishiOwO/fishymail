@@ -32,7 +32,7 @@ static XtAppContext app;
 
 static char* fallback_resources[] = {
     APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
-    APP_CLASS "*MenuBar*fontList: -adobe-helvetica-bold-r-normal--17-120-100-100-p-92-iso8859-1",
+    APP_CLASS "*MenuBar*fontList: *-helvetica-bold-o-normal-*-14-*-iso8859-1",
     APP_CLASS "*TEXT_TEXT*translations: " TEXT_KEYBIND,
     NULL,
 };
