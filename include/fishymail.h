@@ -14,6 +14,8 @@
 #endif
 
 typedef void* SOCKET_HANDLE;
+typedef void* IMAP_HANDLE;
+typedef void* SMTP_HANDLE;
 
 #define MAXDNSPACKET 16
 
@@ -57,11 +59,18 @@ char* FishyMailGetVersion(void);     /* this returns "full" version */
 
 /* socket.c */
 int FishyMailSocketInit(void);
+SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl);
 
 /* dns.c */
 int  FishyMailDNSInit(void);
 void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type);
 void FishyMailFreeDNSPacket(FishyMailDNSPacket_t* pkt);
+
+/* imap.c */
+IMAP_HANDLE FishyMailConnectIMAP(const char* host, int port, int ssl);
+
+/* smtp.c */
+SMTP_HANDLE FishyMailConnectSMTP(const char* host, int port, int ssl);
 
 /* ui driver */
 void FishyMailShowMain(void);

@@ -1,17 +1,7 @@
 /* $Id$ */
 #include <fishymail.h>
 
-#ifdef _WIN32
-#include <winsock.h>
-#include <windns.h>
-#include <in6addr.h>
-#else
-#include <sys/types.h>
-#include <netinet/in.h>
-#include <arpa/nameser.h>
-#include <resolv.h>
-#include <netdb.h>
-#endif
+#include <netincl.h>
 
 void FishyMailFreeDNSPacket(FishyMailDNSPacket_t* pkt) {
 	int i;
@@ -37,7 +27,7 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 	if(!DnsQuery_A(host, ToDNSAPIType(type), DNS_QUERY_STANDARD, NULL, &prec, NULL)) {
 		/* https://ftp.zx.net.nz/pub/Patches/ftp.microsoft.com/MISC/KB/en-us/831/226.HTM */
 		for(; prec != NULL; prec = prec->pNext) {
-			if(type == DNSPACKET_MX) {
+			if(prec->wType == DNS_TYPE_MX && type == DNSPACKET_MX) {
 				/**
 				 * XXX: appearantly broken on wine
 				 *      but works on Windows 7
@@ -46,21 +36,18 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 					pkt->result[pkt->count++] = malloc(strlen(prec->Data.MX.pNameExchange) + 1);
 					strcpy(pkt->result[pkt->count - 1], prec->Data.MX.pNameExchange);
 				}
-			} else if(type == DNSPACKET_A) {
+			} else if(prec->wType == DNS_TYPE_A && type == DNSPACKET_A) {
 				if(pkt->count < MAXDNSPACKET) {
 					struct in_addr* in	  = malloc(sizeof(struct in_addr));
 					pkt->result[pkt->count++] = in;
-					in->S_un.S_addr		  = prec->Data.A.IpAddress;
+					memcpy(in, &prec->Data.A.IpAddress, sizeof(*in));
 				}
-			} else if(type == DNSPACKET_AAAA) {
-				/* XXX: NOT SURE */
-#if 0
+			} else if(prec->wType == DNS_TYPE_AAAA && type == DNSPACKET_AAAA) {
 				if(pkt->count < MAXDNSPACKET){
 					struct in6_addr* in = malloc(sizeof(struct in6_addr));
 					pkt->result[pkt->count++] = in;
-					memcpy(&in->u, &prec->Data.AAAA.Ip6Address, sizeof(in->u));
+					memcpy(in, &prec->Data.AAAA.Ip6Address, sizeof(*in));
 				}
-#endif
 			}
 		}
 		DnsRecordListFree(prec, DnsFreeRecordListDeep);

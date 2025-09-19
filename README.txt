@@ -47,10 +47,6 @@ Known "issues"
      U_CFLAGS=-DUSE_UNSAFE_DNS
 
    or use ostype/musl.mk.
-
-  Windows
-
-   IPv6 code is disabled.
      __________________________________________________________________
 
 Contact

@@ -2,8 +2,6 @@
 
 #include <fishymail.h>
 
-#include <arpa/inet.h>
-
 int FishyMailMainRoutine(void) {
 	int   st;
 	char* s = FishyMailGetVersion();
@@ -17,6 +15,8 @@ int FishyMailMainRoutine(void) {
 	if((st = FishyMailDNSInit()) != 0) {
 		return st;
 	}
+
+	FishyMailConnectIMAP("mail.nishi.boats", 143, 0);
 
 	return 0;
 }
