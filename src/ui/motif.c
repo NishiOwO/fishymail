@@ -36,6 +36,7 @@ static Pixmap	    icon_pixmap, icon_mask;
 static char* fallback_resources[] = {
     APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
     APP_CLASS "*MenuBar*fontList: *-helvetica-bold-o-normal-*-14-*-iso8859-1",
+    APP_CLASS "*DialogInfoForm*fontList: *-helvetica-medium-r-normal-*-14-*-iso8859-1",
     APP_CLASS "*TEXT_TEXT*translations: " TEXT_KEYBIND,
     NULL,
 };
@@ -161,8 +162,10 @@ void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
 
 void FishyMailShowVersion(void) {
 	XmString title = XmStringCreateLocalized("Version Information");
-	Widget	 dialog, d_form, d_logo;
+	Widget	 dialog, d_form, d_logo, d_label;
 	Arg	 args[2];
+	char	 txt[512];
+	XmString str1;
 
 	XtSetArg(args[0], XmNdialogTitle, title);
 	XtSetArg(args[1], XmNnoResize, True);
@@ -172,17 +175,30 @@ void FishyMailShowVersion(void) {
 	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_CANCEL_BUTTON));
 	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
 
-	d_form = XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
-	d_logo = XtVaCreateWidget("DialogInfoLogo", xmLabelWidgetClass, d_form,
-				  XmNleftAttachment, XmATTACH_FORM,
-				  XmNrightAttachment, XmATTACH_FORM,
-				  XmNrightAttachment, XmATTACH_FORM,
-				  XmNlabelType, XmPIXMAP,
-				  XmNlabelPixmap, icon_pixmap,
-				  NULL);
+	sprintf(txt, "FishyMail version %s", FishyMailVersion);
+	str1 = XmStringCreateLocalized(txt);
+
+	d_form	= XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
+	d_logo	= XtVaCreateWidget("DialogInfoLogo", xmLabelWidgetClass, d_form,
+				   XmNleftAttachment, XmATTACH_FORM,
+				   XmNtopAttachment, XmATTACH_FORM,
+				   XmNbottomAttachment, XmATTACH_FORM,
+				   XmNlabelType, XmPIXMAP,
+				   XmNlabelPixmap, icon_pixmap,
+				   NULL);
+	d_label = XtVaCreateWidget("DialogInfoText1", xmLabelWidgetClass, d_form,
+				   XmNleftAttachment, XmATTACH_WIDGET,
+				   XmNleftWidget, d_logo,
+				   XmNrightAttachment, XmATTACH_FORM,
+				   XmNtopAttachment, XmATTACH_FORM,
+				   XmNbottomAttachment, XmATTACH_FORM,
+				   XmNlabelString, str1,
+				   NULL);
+	XtManageChild(d_label);
 	XtManageChild(d_logo);
 	XtManageChild(d_form);
 
+	XmStringFree(str1);
 	XmStringFree(title);
 	XtManageChild(dialog);
 }
