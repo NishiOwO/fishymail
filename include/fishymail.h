@@ -78,6 +78,7 @@ SMTP_HANDLE FishyMailConnectSMTP(const char* host, int port, int ssl);
 void FishyMailShowMain(void);
 void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h);
 void FishyMailStartQuit(void);
+void FishyMailShowVersion(void);
 
 /* also ui driver, called from parser */
 void BeginPopup(const char* name, int help);

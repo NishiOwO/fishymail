@@ -12,11 +12,12 @@
 #include <Xm/RowColumn.h>
 #include <Xm/Separator.h>
 #include <Xm/Form.h>
-#include <Xm/Outline.h>
 #include <Xm/Frame.h>
 #include <Xm/List.h>
 #include <Xm/ScrolledW.h>
+#include <Xm/Outline.h>
 #include <Xm/Text.h>
+#include <Xm/MessageB.h>
 
 #include "../images/fishymail.xpm"
 #include <fishymail.h>
@@ -29,6 +30,7 @@ static pthread_t ui_thread;
 
 static Widget	    top, mainw, form, menubar;
 static XtAppContext app;
+static Pixmap icon_pixmap, icon_mask;
 
 static char* fallback_resources[] = {
     APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
@@ -92,7 +94,6 @@ static void* ui_thread_routine(void* arg) {
 int main(int argc, char** argv) {
 	int    ret;
 	int    st;
-	Pixmap icon_pixmap, icon_mask;
 
 	args.argc = argc;
 	args.argv = argv;
@@ -111,13 +112,11 @@ int main(int argc, char** argv) {
 
 	mainw = XtVaCreateManagedWidget("MainWindow", xmMainWindowWidgetClass, top, NULL);
 
-	menubar = XmVaCreateSimpleMenuBar(mainw, "MenuBar", NULL);
+	menubar = XmCreateMenuBar(mainw, "MenuBar", NULL, 0);
 	XtManageChild(menubar);
 
-	form = XmVaCreateForm(mainw, "form", NULL);
+	form = XtVaCreateWidget("Form", xmFormWidgetClass, mainw, NULL);
 	XtManageChild(form);
-
-	XtRealizeWidget(top);
 
 	XtResizeWidget(top, 800, 600, 1);
 
@@ -134,6 +133,7 @@ int main(int argc, char** argv) {
 }
 
 void FishyMailShowMain(void) {
+	XtRealizeWidget(top);
 }
 
 static Widget popup_menu;
@@ -144,6 +144,31 @@ static void MenuItemCallback(Widget w, XtPointer ptr, XtPointer data) {
 	(void)data;
 
 	FishyMailMenuItemPressed(XtName(w));
+}
+
+void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
+	XtVaSetValues((Widget)opaque, XmNleftAttachment, XmATTACH_NONE, XmNtopAttachment, XmATTACH_NONE, XmNx, x, XmNy, y, NULL);
+	XtVaSetValues((Widget)opaque, XmNwidth, w, XmNheight, h, NULL);
+}
+
+void FishyMailShowVersion(void){
+	XmString title = XmStringCreateLocalized("Version Information");
+	Widget dialog, d_form;
+	Arg args[2];
+
+	XtSetArg(args[0], XmNdialogTitle, title);
+	XtSetArg(args[1], XmNnoResize, True);
+
+	dialog = XmCreateMessageDialog(top, "DialogInfo", args, 2);
+
+        XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_CANCEL_BUTTON));
+        XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
+
+	d_form = XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
+	XtManageChild(d_form);
+
+	XmStringFree(title);
+	XtManageChild(dialog);
 }
 
 void BeginPopup(const char* name, int help) {
@@ -173,12 +198,18 @@ void BeginPopup(const char* name, int help) {
 	popup_menu = XmCreatePulldownMenu(menubar, idname, NULL, 0);
 
 	str  = XmStringCreateLocalized(menuname);
-	menu = XmVaCreateCascadeButton(menubar, idname,
-				       XmNsubMenuId, popup_menu,
+	menu = XtVaCreateWidget(idname, xmCascadeButtonWidgetClass, menubar,
 				       XmNlabelString, str,
 				       XmNmnemonic, c,
+				       XmNsubMenuId, popup_menu,
 				       NULL);
-	XmStringFree(str);
+	/*
+	menu = XmVaCreateCascadeButton(menubar, idname,
+				       XmNlabelString, str,
+				       XmNmnemonic, c,
+				       XmNsubMenuId, popup_menu,
+				       NULL);
+	*/
 
 	if(help) {
 		Arg arg[1];
@@ -187,6 +218,7 @@ void BeginPopup(const char* name, int help) {
 	}
 
 	XtManageChild(menu);
+	XmStringFree(str);
 }
 
 void MenuItem(const char* name) {
@@ -212,23 +244,19 @@ void MenuItem(const char* name) {
 	FishyMailRemoveSpecial(tmp, menuname);
 
 	str = XmStringCreateLocalized(menuname);
-	w   = XmVaCreatePushButton(popup_menu, idname,
+	w   = XtVaCreateWidget(idname, xmPushButtonWidgetClass, popup_menu,
 				   XmNlabelString, str,
 				   XmNmnemonic, c,
 				   NULL);
 	XtAddCallback(w, XmNactivateCallback, MenuItemCallback, NULL);
-	XmStringFree(str);
+
 	XtManageChild(w);
+	XmStringFree(str);
 }
 
 void MenuItemSeparator(void) {
-	Widget w = XmVaCreateSeparator(popup_menu, "SEPARATOR", NULL);
+	Widget w = XtVaCreateWidget("SEPARATOR", xmSeparatorWidgetClass, popup_menu, NULL);
 	XtManageChild(w);
-}
-
-void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
-	XtVaSetValues((Widget)opaque, XmNleftAttachment, XmATTACH_NONE, XmNtopAttachment, XmATTACH_NONE, XmNx, x, XmNy, y, NULL);
-	XtVaSetValues((Widget)opaque, XmNwidth, w, XmNheight, h, NULL);
 }
 
 void Tree(const char* name, int left, int top, int right, int bottom) {
