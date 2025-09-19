@@ -36,7 +36,6 @@ static Pixmap	    icon_pixmap, icon_mask;
 static char* fallback_resources[] = {
     APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
     APP_CLASS "*MenuBar*fontList: *-helvetica-bold-o-normal-*-14-*-iso8859-1",
-    APP_CLASS "*DialogInfoForm*fontList: *-helvetica-medium-r-normal-*-14-*-iso8859-1",
     APP_CLASS "*TEXT_TEXT*translations: " TEXT_KEYBIND,
     NULL,
 };
