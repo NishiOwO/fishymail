@@ -30,7 +30,7 @@ void FishyMailMenuItemPressed(const char* str) {
 	DebugLog("%s was pressed", str);
 	if(strcmp(str, "MENU_FILE_QUIT") == 0) {
 		FishyMailStartQuit();
-	}else if(strcmp(str, "MENU_HELP_VERSION") == 0) {
+	} else if(strcmp(str, "MENU_HELP_VERSION") == 0) {
 		FishyMailShowVersion();
 	}
 }

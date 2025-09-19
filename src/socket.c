@@ -37,13 +37,13 @@ int FishyMailSocketInit(void) {
 	return 0;
 }
 
-unsigned long FishyMailRead(SOCKET_HANDLE handle, void* data, unsigned long len){
+unsigned long FishyMailRead(SOCKET_HANDLE handle, void* data, unsigned long len) {
 	unsigned long code;
-	socket_t* s = (socket_t*)handle;
+	socket_t*     s = (socket_t*)handle;
 #ifdef USE_SSL
-	if(s->ssl != NULL){
+	if(s->ssl != NULL) {
 		code = SSL_read(s->ssl, data, len);
-	}else{
+	} else {
 		code = net_read(s->fd, data, len);
 	}
 #else
@@ -52,13 +52,13 @@ unsigned long FishyMailRead(SOCKET_HANDLE handle, void* data, unsigned long len)
 	return code;
 }
 
-unsigned long FishyMailWrite(SOCKET_HANDLE handle, void* data, unsigned long len){
+unsigned long FishyMailWrite(SOCKET_HANDLE handle, void* data, unsigned long len) {
 	unsigned long code;
-	socket_t* s = (socket_t*)handle;
+	socket_t*     s = (socket_t*)handle;
 #ifdef USE_SSL
-	if(s->ssl != NULL){
+	if(s->ssl != NULL) {
 		code = SSL_write(s->ssl, data, len);
-	}else{
+	} else {
 		code = net_write(s->fd, data, len);
 	}
 #else
@@ -90,8 +90,10 @@ SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
 			s->fd = socket(id == DNSPACKET_A ? PF_INET : PF_INET6, SOCK_STREAM, 0);
 			if(s->fd == -1) break;
 
-			nbyt = 65535; setsockopt(s->fd, SOL_SOCKET, SO_RCVBUF, (char*)&nbyt, sizeof(nbyt));
-			nbyt = 65535; setsockopt(s->fd, SOL_SOCKET, SO_SNDBUF, (char*)&nbyt, sizeof(nbyt));
+			nbyt = 65535;
+			setsockopt(s->fd, SOL_SOCKET, SO_RCVBUF, (char*)&nbyt, sizeof(nbyt));
+			nbyt = 65535;
+			setsockopt(s->fd, SOL_SOCKET, SO_SNDBUF, (char*)&nbyt, sizeof(nbyt));
 			setsockopt(s->fd, IPPROTO_TCP, TCP_NODELAY, (char*)&yes, sizeof(yes));
 
 			if(id == DNSPACKET_A) {
@@ -130,11 +132,11 @@ SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
 #ifdef USE_SSL
 	if(ssl) {
 		const SSL_METHOD* method = TLS_client_method();
-		s->ctx = SSL_CTX_new(method);
-		s->ssl = SSL_new(s->ctx);
+		s->ctx			 = SSL_CTX_new(method);
+		s->ssl			 = SSL_new(s->ctx);
 		SSL_set_fd(s->ssl, s->fd);
 		SSL_set_tlsext_host_name(s->ssl, host);
-		if(SSL_connect(s->ssl) != 1){
+		if(SSL_connect(s->ssl) != 1) {
 			SSL_CTX_free(s->ctx);
 			SSL_free(s->ssl);
 			net_close(s->fd);
@@ -142,13 +144,13 @@ SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
 			free(s);
 			return NULL;
 		}
-	}else{
+	} else {
 		s->ctx = NULL;
 		s->ssl = NULL;
 	}
 #endif
-	
-	if(!sockok){
+
+	if(!sockok) {
 		DebugLog("%s:%d: connection failure", host, port);
 		free(s);
 		return NULL;

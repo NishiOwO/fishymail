@@ -30,7 +30,7 @@ static pthread_t ui_thread;
 
 static Widget	    top, mainw, form, menubar;
 static XtAppContext app;
-static Pixmap icon_pixmap, icon_mask;
+static Pixmap	    icon_pixmap, icon_mask;
 
 static char* fallback_resources[] = {
     APP_CLASS "*fontList: -sony-fixed-medium-r-normal--16-120-100-100-c-80-iso8859-1",
@@ -92,8 +92,8 @@ static void* ui_thread_routine(void* arg) {
 }
 
 int main(int argc, char** argv) {
-	int    ret;
-	int    st;
+	int ret;
+	int st;
 
 	args.argc = argc;
 	args.argv = argv;
@@ -151,18 +151,18 @@ void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
 	XtVaSetValues((Widget)opaque, XmNwidth, w, XmNheight, h, NULL);
 }
 
-void FishyMailShowVersion(void){
+void FishyMailShowVersion(void) {
 	XmString title = XmStringCreateLocalized("Version Information");
-	Widget dialog, d_form;
-	Arg args[2];
+	Widget	 dialog, d_form;
+	Arg	 args[2];
 
 	XtSetArg(args[0], XmNdialogTitle, title);
 	XtSetArg(args[1], XmNnoResize, True);
 
 	dialog = XmCreateMessageDialog(top, "DialogInfo", args, 2);
 
-        XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_CANCEL_BUTTON));
-        XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
+	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_CANCEL_BUTTON));
+	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
 
 	d_form = XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
 	XtManageChild(d_form);
@@ -177,6 +177,7 @@ void BeginPopup(const char* name, int help) {
 	char	 menuname[128];
 	Widget	 menu;
 	XmString str;
+	Arg	 arg[1];
 	char	 c = 0;
 	int	 i;
 
@@ -199,23 +200,17 @@ void BeginPopup(const char* name, int help) {
 
 	str  = XmStringCreateLocalized(menuname);
 	menu = XtVaCreateWidget(idname, xmCascadeButtonWidgetClass, menubar,
-				       XmNlabelString, str,
-				       XmNmnemonic, c,
-				       XmNsubMenuId, popup_menu,
-				       NULL);
-	/*
-	menu = XmVaCreateCascadeButton(menubar, idname,
-				       XmNlabelString, str,
-				       XmNmnemonic, c,
-				       XmNsubMenuId, popup_menu,
-				       NULL);
-	*/
+				XmNlabelString, str,
+				XmNsubMenuId, popup_menu,
+				NULL);
 
 	if(help) {
-		Arg arg[1];
 		XtSetArg(arg[0], XmNmenuHelpWidget, menu);
 		XtSetValues(menubar, arg, 1);
 	}
+
+	XtSetArg(arg[0], XmNmnemonic, c);
+	XtSetValues(menu, arg, 1);
 
 	XtManageChild(menu);
 	XmStringFree(str);
@@ -227,6 +222,7 @@ void MenuItem(const char* name) {
 	char	 menuname[128];
 	Widget	 w;
 	XmString str;
+	Arg	 arg[1];
 	char	 c = 0;
 	int	 i;
 
@@ -245,10 +241,12 @@ void MenuItem(const char* name) {
 
 	str = XmStringCreateLocalized(menuname);
 	w   = XtVaCreateWidget(idname, xmPushButtonWidgetClass, popup_menu,
-				   XmNlabelString, str,
-				   XmNmnemonic, c,
-				   NULL);
+			       XmNlabelString, str,
+			       NULL);
 	XtAddCallback(w, XmNactivateCallback, MenuItemCallback, NULL);
+
+	XtSetArg(arg[0], XmNmnemonic, c);
+	XtSetValues(w, arg, 1);
 
 	XtManageChild(w);
 	XmStringFree(str);
