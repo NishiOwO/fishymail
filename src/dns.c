@@ -43,8 +43,8 @@ void FishyMailDNSLookup(FishyMailDNSPacket_t* pkt, const char* host, int type) {
 					memcpy(in, &prec->Data.A.IpAddress, sizeof(*in));
 				}
 			} else if(prec->wType == DNS_TYPE_AAAA && type == DNSPACKET_AAAA) {
-				if(pkt->count < MAXDNSPACKET){
-					struct in6_addr* in = malloc(sizeof(struct in6_addr));
+				if(pkt->count < MAXDNSPACKET) {
+					struct in6_addr* in	  = malloc(sizeof(struct in6_addr));
 					pkt->result[pkt->count++] = in;
 					memcpy(in, &prec->Data.AAAA.Ip6Address, sizeof(*in));
 				}

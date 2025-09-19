@@ -10,8 +10,8 @@
 #include <ws2ipdef.h>
 
 #define net_close closesocket
-#define net_write(x,y,z) send(x,y,z,0)
-#define net_read(x,y,z) recv(x,y,z,0)
+#define net_write(x, y, z) send(x, (void*)y, z, 0)
+#define net_read(x, y, z) recv(x, (void*)y, z, 0)
 #else
 #include <unistd.h>
 #include <sys/socket.h>
@@ -22,8 +22,8 @@
 #include <netdb.h>
 
 #define net_close close
-#define net_write(x,y,z) write(x,y,z)
-#define net_read(x,y,z) read(x,y,z)
+#define net_write(x, y, z) write(x, (void*)y, z)
+#define net_read(x, y, z) read(x, (void*)y, z)
 #endif
 
 #ifdef USE_CYRUS_SASL2

@@ -58,7 +58,7 @@ extern const char* FishyMailVersion; /* when this returns only major.minor.patch
 char* FishyMailGetVersion(void);     /* this returns "full" version */
 
 /* socket.c */
-int FishyMailSocketInit(void);
+int	      FishyMailSocketInit(void);
 SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl);
 
 /* dns.c */

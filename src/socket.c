@@ -38,56 +38,48 @@ int FishyMailSocketInit(void) {
 }
 
 SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
-	socket_t* s = malloc(sizeof(*s));
+	socket_t*	     s = malloc(sizeof(*s));
 	FishyMailDNSPacket_t pkt;
-	int id;
-	int i;
-	int sockok = 0;
+	int		     id;
+	int		     i;
+	int		     sockok = 0;
 
 	(void)ssl;
 
-	for(i = 0; i < 2; i++){
+	for(i = 0; i < 2; i++) {
 		int j;
 
 		if(i == 0) id = DNSPACKET_A;
 		if(i == 1) id = DNSPACKET_AAAA;
 
 		FishyMailDNSLookup(&pkt, host, id);
-		for(j = 0; j < pkt.count; j++){
+		for(j = 0; j < pkt.count; j++) {
 			int fd = socket(id == DNSPACKET_A ? PF_INET : PF_INET6, SOCK_STREAM, 0);
 			if(fd == -1) break;
-			if(id == DNSPACKET_A){
+			if(id == DNSPACKET_A) {
 				struct sockaddr_in in;
 
 				in.sin_family = AF_INET;
-				in.sin_port = htons(port);
-				in.sin_addr = *(struct in_addr*)pkt.result[j];
+				in.sin_port   = htons(port);
+				in.sin_addr   = *(struct in_addr*)pkt.result[j];
 
-				if(connect(fd, (struct sockaddr*)&in, sizeof(in)) == 0){
-					unsigned char buf[512];
-					memset(buf, 0, 512);
-					net_read(fd, buf, 512);
-					printf("%s\n", buf);
+				if(connect(fd, (struct sockaddr*)&in, sizeof(in)) == 0) {
 					sockok = 1;
 					break;
-				}else{
+				} else {
 					net_close(fd);
 				}
-			}else if(id == DNSPACKET_AAAA){
+			} else if(id == DNSPACKET_AAAA) {
 				struct sockaddr_in6 in6;
 
 				in6.sin6_family = AF_INET6;
-				in6.sin6_port = htons(port);
-				in6.sin6_addr = *(struct in6_addr*)pkt.result[j];
+				in6.sin6_port	= htons(port);
+				in6.sin6_addr	= *(struct in6_addr*)pkt.result[j];
 
-				if(connect(fd, (struct sockaddr*)&in6, sizeof(in6)) == 0){
-					unsigned char buf[512];
-					memset(buf, 0, 512);
-					net_read(fd, buf, 512);
-					printf("%s\n", buf);
+				if(connect(fd, (struct sockaddr*)&in6, sizeof(in6)) == 0) {
 					sockok = 1;
 					break;
-				}else{
+				} else {
 					net_close(fd);
 				}
 			}
@@ -97,7 +89,7 @@ SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl) {
 		if(sockok) break;
 	}
 
-	if(!sockok){
+	if(!sockok) {
 		DebugLog("%s:%d: connection failure", host, port);
 		free(s);
 		return NULL;
