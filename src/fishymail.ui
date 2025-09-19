@@ -10,8 +10,6 @@
 # |  e  |                   |
 # |     |                   |
 # +-----+-------------------+
-# Should show only one screen instead of 2 panes for welcome screen
-# which should be located first in Tree.
 #
 
 Set Title=FishyMail

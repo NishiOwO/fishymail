@@ -18,8 +18,6 @@ const char* ui_text = \
 	"# |  e  |                   |\n" \
 	"# |     |                   |\n" \
 	"# +-----+-------------------+\n" \
-	"# Should show only one screen instead of 2 panes for welcome screen\n" \
-	"# which should be located first in Tree.\n" \
 	"#\n" \
 	"\n" \
 	"Set Title=FishyMail\n" \
