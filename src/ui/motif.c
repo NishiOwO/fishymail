@@ -17,6 +17,7 @@
 #include <Xm/ScrolledW.h>
 #include <Xm/Outline.h>
 #include <Xm/Text.h>
+#include <Xm/Label.h>
 #include <Xm/MessageB.h>
 
 #include "../images/fishymail.xpm"
@@ -92,8 +93,10 @@ static void* ui_thread_routine(void* arg) {
 }
 
 int main(int argc, char** argv) {
-	int ret;
-	int st;
+	int	      ret;
+	int	      st;
+	char	      bg[64];
+	unsigned long color;
 
 	args.argc = argc;
 	args.argv = argv;
@@ -106,11 +109,16 @@ int main(int argc, char** argv) {
 
 	quit_atom = XInternAtom(XtDisplay(top), "_FISHYMAIL_QUIT", False);
 
+	mainw = XtVaCreateManagedWidget("MainWindow", xmMainWindowWidgetClass, top, NULL);
+
+	XtVaGetValues(mainw, XtNbackground, &color, NULL);
+	sprintf(bg, "  c #%.6lx", color);
+
+	fishymail[1] = bg;
+
 	XpmCreatePixmapFromData(XtDisplay(top), DefaultRootWindow(XtDisplay(top)), fishymail, &icon_pixmap, &icon_mask, NULL);
 	XtVaSetValues(top, XmNiconPixmap, icon_pixmap, NULL);
 	XtVaSetValues(top, XmNiconMask, icon_mask, NULL);
-
-	mainw = XtVaCreateManagedWidget("MainWindow", xmMainWindowWidgetClass, top, NULL);
 
 	menubar = XmCreateMenuBar(mainw, "MenuBar", NULL, 0);
 	XtManageChild(menubar);
@@ -153,7 +161,7 @@ void FishyMailLayoutWidget(void* opaque, int x, int y, int w, int h) {
 
 void FishyMailShowVersion(void) {
 	XmString title = XmStringCreateLocalized("Version Information");
-	Widget	 dialog, d_form;
+	Widget	 dialog, d_form, d_logo;
 	Arg	 args[2];
 
 	XtSetArg(args[0], XmNdialogTitle, title);
@@ -165,6 +173,14 @@ void FishyMailShowVersion(void) {
 	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
 
 	d_form = XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
+	d_logo = XtVaCreateWidget("DialogInfoLogo", xmLabelWidgetClass, d_form,
+				  XmNleftAttachment, XmATTACH_FORM,
+				  XmNrightAttachment, XmATTACH_FORM,
+				  XmNrightAttachment, XmATTACH_FORM,
+				  XmNlabelType, XmPIXMAP,
+				  XmNlabelPixmap, icon_pixmap,
+				  NULL);
+	XtManageChild(d_logo);
 	XtManageChild(d_form);
 
 	XmStringFree(title);
