@@ -15,7 +15,9 @@
      * SASL authentication, using Cyrus SASL 2.x
      * SSL/TLS using OpenSSL
 
-   Source code is available at: [1]Subversion
+   Source code is available at:
+     * [1]Subversion
+     * [2]GitHub
      __________________________________________________________________
 
 Building
@@ -56,3 +58,4 @@ Contact
 References
 
    1. http://svn2.nishi.boats/svn/fishymail
+   2. https://github.com/nishiowo/fishymail
