@@ -17,6 +17,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <netinet/tcp.h>
 #include <arpa/nameser.h>
 #include <resolv.h>
 #include <netdb.h>

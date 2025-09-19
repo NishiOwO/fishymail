@@ -60,6 +60,8 @@ char* FishyMailGetVersion(void);     /* this returns "full" version */
 /* socket.c */
 int	      FishyMailSocketInit(void);
 SOCKET_HANDLE FishyMailConnect(const char* host, int port, int ssl);
+unsigned long FishyMailRead(SOCKET_HANDLE handle, void* data, unsigned long len);
+unsigned long FishyMailWrite(SOCKET_HANDLE handle, void* data, unsigned long len);
 
 /* dns.c */
 int  FishyMailDNSInit(void);
