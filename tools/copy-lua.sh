@@ -11,8 +11,8 @@ mkdir -p src/lua include/lua
 
 cd $1
 for i in *.c; do
-	if [ ! "$i" = "lua.c" ]; then
-		OBJS="$OBJS `echo $i | sed 's/.c$/.o/g'`"
+	if [ ! "$i" = "lua.c" -a ! "$i" = "onelua.c" ]; then
+		OBJS="$OBJS src/lua/`echo $i | sed 's/.c$/.o/g'`"
 		cp $i $OLD/src/lua/
 	fi
 done
@@ -27,4 +27,4 @@ svn add include/lua
 
 echo "# \$Id\$" > mk/lua.mk
 echo "OBJS +=$OBJS" >> mk/lua.mk
-echo "CFLAGS += -Iinclude/lua" >> mk/lua.mk
+echo "CFLAGS += -DLUA_USE_C89 -Iinclude/lua" >> mk/lua.mk

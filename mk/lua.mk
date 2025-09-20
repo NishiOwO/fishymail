@@ -1,3 +1,3 @@
 # $Id$
-OBJS += lapi.o lauxlib.o lbaselib.o lcode.o lcorolib.o lctype.o ldblib.o ldebug.o ldo.o ldump.o lfunc.o lgc.o linit.o liolib.o llex.o lmathlib.o lmem.o loadlib.o lobject.o lopcodes.o loslib.o lparser.o lstate.o lstring.o lstrlib.o ltable.o ltablib.o ltests.o ltm.o lundump.o lutf8lib.o lvm.o lzio.o onelua.o
-CFLAGS += -Iinclude/lua
+OBJS += src/lua/lapi.o src/lua/lauxlib.o src/lua/lbaselib.o src/lua/lcode.o src/lua/lcorolib.o src/lua/lctype.o src/lua/ldblib.o src/lua/ldebug.o src/lua/ldo.o src/lua/ldump.o src/lua/lfunc.o src/lua/lgc.o src/lua/linit.o src/lua/liolib.o src/lua/llex.o src/lua/lmathlib.o src/lua/lmem.o src/lua/loadlib.o src/lua/lobject.o src/lua/lopcodes.o src/lua/loslib.o src/lua/lparser.o src/lua/lstate.o src/lua/lstring.o src/lua/lstrlib.o src/lua/ltable.o src/lua/ltablib.o src/lua/ltests.o src/lua/ltm.o src/lua/lundump.o src/lua/lutf8lib.o src/lua/lvm.o src/lua/lzio.o
+CFLAGS += -DLUA_USE_C89 -Iinclude/lua

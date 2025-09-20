@@ -1,7 +1,7 @@
 # $Id$
 # Makefile for Unix.
 
-P_LIBS += -lXm -lXt -lX11 -lXpm -lpthread -lresolv
+P_LIBS += -lXm -lXt -lX11 -lXpm -lpthread -lresolv -lm
 
 P_OBJS += src/ui/motif.o
 
