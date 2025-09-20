@@ -19,7 +19,8 @@ typedef struct id {
 } id_t;
 
 static id_t* ids = NULL;
-void	     FishyMailStartQuit(void) {
+
+void FishyMailStartQuit(void) {
 	DestroyWindow(hMain);
 }
 
@@ -171,6 +172,26 @@ void FishyMailShowMain(void) {
 static HMENU hPopupMenu;
 static char  PopupName[128];
 static int   PopupPosition = 0;
+
+void FishyMailShowVersion(void) {
+	MSGBOXPARAMSA param;
+	char	      buf[64];
+
+	sprintf(buf, "FishyMail version %s", FishyMailVersion);
+
+	param.cbSize		 = sizeof(param);
+	param.hwndOwner		 = hMain;
+	param.hInstance		 = hInst;
+	param.lpszText		 = buf;
+	param.lpszCaption	 = "Version Information";
+	param.dwStyle		 = MB_OK | MB_USERICON;
+	param.lpszIcon		 = "FISHYMAIL";
+	param.dwContextHelpId	 = 0;
+	param.lpfnMsgBoxCallback = NULL;
+	param.dwLanguageId	 = LANG_NEUTRAL;
+
+	MessageBoxIndirect(&param);
+}
 
 void BeginPopup(const char* name, int help) {
 	sprintf(PopupName, "MENU_%s", name);
