@@ -15,7 +15,7 @@ PERL_SRCS = `find tools -name "*.pl"`
 P_CC ?= $(CROSS)gcc
 P_RC ?= $(CROSS)windres
 
-CFLAGS = $(C_CFLAGS) $(U_CFLAGS) $(P_CFLAGS) -I include -Wall -Wextra -Wno-unused-function
+CFLAGS = $(C_CFLAGS) $(U_CFLAGS) $(P_CFLAGS) -I include -Wall -Wextra -Wno-unused-function -Wno-deprecated-declarations
 LDFLAGS = $(C_LDFLAGS) $(U_LDFLAGS) $(P_LDFLAGS)
 LIBS = $(C_LIBS) $(U_LIBS) $(P_LIBS)
 

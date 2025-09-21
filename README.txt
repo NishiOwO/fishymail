@@ -8,7 +8,7 @@
      * Debian GNU/Linux 12.0 or newer
 
    with following GUI:
-     * Motif for Unix and Unix-likes
+     * Motif (default) or GTK2 for Unix and Unix-likes
      * Pure Win32 API for Windows
 
    and with following features:
@@ -38,6 +38,8 @@ Makefile variables
    U_CFLAGS  User customizable flags for compiling
    U_LDFLAGS User customizable flags for linking
     U_LIBS   User customizable libraries
+         If you're using Unix or Unix-likes
+    UNIX_UI  motif (default) or gtk2
      __________________________________________________________________
 
 Known "issues"

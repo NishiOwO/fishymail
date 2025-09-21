@@ -1,8 +1,8 @@
 # $Id$
 # Makefile for Unix.
 
-P_LIBS += -lXm -lXt -lX11 -lXpm -lpthread -lresolv -lm
+UNIX_UI = motif
 
-P_OBJS += src/ui/motif.o
+P_LIBS += -lpthread -lresolv -lm
 
-include mk/include.mk
+include mk/unix/$(UNIX_UI).mk
