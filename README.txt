@@ -28,6 +28,7 @@ Building
 
 Makefile variables
 
+     P_CC    C compiler used to compile FishyMail
    P_CFLAGS  Platform dependent flags for compiling
    P_LDFLAGS Platform dependent flags for linking
     P_LIBS   Platform dependent libraries
