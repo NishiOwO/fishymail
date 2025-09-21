@@ -2,11 +2,15 @@
 
 #include <fishymail.h>
 
+#include <lua.h>
+
 int FishyMailMainRoutine(void) {
 	int   st;
 	char* s = FishyMailGetVersion();
 	DebugLog("FishyMail %s", s);
 	free(s);
+
+	DebugLog("%s", LUA_RELEASE);
 
 	if((st = FishyMailSocketInit()) != 0) {
 		return st;

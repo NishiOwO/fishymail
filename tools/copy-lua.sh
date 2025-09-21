@@ -4,27 +4,27 @@
 OLD="$PWD"
 OBJS=""
 
-svn rm --force src/lua
-svn rm --force include/lua
+svn rm --force lua/src
+svn rm --force lua/include
 
-mkdir -p src/lua include/lua
+mkdir -p lua/src lua/include
 
 cd $1
 for i in *.c; do
 	if [ ! "$i" = "lua.c" -a ! "$i" = "onelua.c" ]; then
-		OBJS="$OBJS src/lua/`echo $i | sed 's/.c$/.o/g'`"
-		cp $i $OLD/src/lua/
+		OBJS="$OBJS lua/src/`echo $i | sed 's/.c$/.o/g'`"
+		cp $i $OLD/lua/src/
 	fi
 done
 for i in *.h; do
-	cp $i $OLD/include/lua/
+	cp $i $OLD/lua/include/
 done
 
 cd "$OLD"
 
-svn add src/lua
-svn add include/lua
+svn add lua/src
+svn add lua/include
 
-echo "# \$Id\$" > mk/lua.mk
-echo "OBJS +=$OBJS" >> mk/lua.mk
-echo "CFLAGS += -DLUA_USE_C89 -Iinclude/lua" >> mk/lua.mk
+echo "# \$Id\$" > lua/Makefile
+echo "OBJS +=$OBJS" >> lua/Makefile
+echo "CFLAGS += -DLUA_USE_C89 -Ilua/include" >> lua/Makefile

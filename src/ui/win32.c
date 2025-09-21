@@ -13,12 +13,12 @@ static HANDLE	 hUIReady;
 static HMENU	 hMenu;
 static HWND	 hMain;
 
-typedef struct id {
+typedef struct kvid {
 	char* key;
 	int   value;
-} id_t;
+} kvid_t;
 
-static id_t* ids = NULL;
+static kvid_t* ids = NULL;
 
 void FishyMailStartQuit(void) {
 	DestroyWindow(hMain);
