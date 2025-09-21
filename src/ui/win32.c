@@ -175,9 +175,9 @@ static int   PopupPosition = 0;
 
 void FishyMailShowVersion(void) {
 	MSGBOXPARAMSA param;
-	char	      buf[64];
+	char	      buf[512];
 
-	sprintf(buf, "FishyMail version %s", FishyMailVersion);
+	FishyMailPrintVersion(buf);
 
 	param.cbSize		 = sizeof(param);
 	param.hwndOwner		 = hMain;

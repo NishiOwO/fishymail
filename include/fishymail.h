@@ -38,6 +38,7 @@ void FishyMailMenuItemPressed(const char* str);
 /* util.c */
 void FishyMailSanitizeName(const char* from, char* to);
 void FishyMailRemoveSpecial(const char* from, char* to);
+void FishyMailPrintVersion(char* txt);
 
 /* layout.c */
 void FishyMailLayout(int ww, int wh);

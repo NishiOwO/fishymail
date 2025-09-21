@@ -9,6 +9,10 @@ static inline int is_alnum(char c) {
 	       ('0' <= c && c <= '9');
 }
 
+void FishyMailPrintVersion(char* txt) {
+	sprintf(txt, "FishyMail Version %s", FishyMailVersion);
+}
+
 void FishyMailRemoveSpecial(const char* from, char* to) {
 	int i;
 	int ind = 0;

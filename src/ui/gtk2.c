@@ -96,7 +96,7 @@ void FishyMailShowVersion(void) {
 	GtkWidget* dialog;
 	char	   buf[512];
 
-	sprintf(buf, "FishyMail Version %s", FishyMailVersion);
+	FishyMailPrintVersion(buf);
 
 	dialog = gtk_message_dialog_new(GTK_WINDOW(top),
 					GTK_DIALOG_DESTROY_WITH_PARENT,

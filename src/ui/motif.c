@@ -174,7 +174,7 @@ void FishyMailShowVersion(void) {
 	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_CANCEL_BUTTON));
 	XtUnmanageChild(XmMessageBoxGetChild(dialog, XmDIALOG_HELP_BUTTON));
 
-	sprintf(txt, "FishyMail version %s", FishyMailVersion);
+	FishyMailPrintVersion(txt);
 	str1 = XmStringCreateLocalized(txt);
 
 	d_form	= XtVaCreateWidget("DialogInfoForm", xmFormWidgetClass, dialog, NULL);
