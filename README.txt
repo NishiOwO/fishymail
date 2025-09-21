@@ -52,6 +52,10 @@ Known "issues"
      U_CFLAGS=-DUSE_UNSAFE_DNS
 
    or use ostype/musl.mk.
+
+  GTK2 Backend
+
+   Cannot shrink the window.
      __________________________________________________________________
 
 Contact
