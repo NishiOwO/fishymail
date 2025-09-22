@@ -49,4 +49,4 @@ propset:
 	svn propset svn:keywords Id $(SRCS) $(SRCS_HEADERS)
 
 clean:
-	rm -f *.exe src/*.o src/*.res src/*/*.o fishymail
+	rm -f *.exe src/*.o src/*.res src/*/*.o lua/src/*.o fishymail
