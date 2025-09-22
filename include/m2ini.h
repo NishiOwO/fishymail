@@ -42,6 +42,7 @@ mi_ini_t;
 struct mi_ini {
 	mi_ini_t** child;
 	int	   type;
+	char*	   comment;
 	char*	   key;
 	char*	   value;
 };
@@ -49,7 +50,8 @@ struct mi_ini {
 enum MI_TYPE {
 	MI_ROOT = 0,
 	MI_SECTION,
-	MI_KV
+	MI_KV,
+	MI_COMMENT
 };
 
 /**
@@ -101,6 +103,15 @@ MIDEF mi_ini_t* mi_new_kv(mi_ini_t* ini, const char* key, const char* value);
  * @return Section
  */
 MIDEF mi_ini_t* mi_new_section(mi_ini_t* ini, const char* name);
+
+/**
+ * @~english
+ * @brief Create new comment
+ * @param ini INI
+ * @param comment Comment
+ * @return Comment
+ */
+MIDEF mi_ini_t* mi_new_comment(mi_ini_t* ini, const char* comment);
 
 /**
  * @~english
@@ -203,6 +214,12 @@ void mi_set_value(mi_ini_t* ini, const char* value) {
 	strcpy(ini->value, value);
 }
 
+void mi_set_comment(mi_ini_t* ini, const char* comment) {
+	if(ini->comment != NULL) free(ini->comment);
+	ini->comment = malloc(strlen(comment) + 1);
+	strcpy(ini->comment, comment);
+}
+
 mi_ini_t* mi_new(void) {
 	mi_ini_t* ini = malloc(sizeof(*ini));
 	memset(ini, 0, sizeof(*ini));
@@ -231,6 +248,17 @@ mi_ini_t* mi_new_section(mi_ini_t* ini, const char* name) {
 	r->type	    = MI_SECTION;
 
 	mi_set_name(r, name);
+
+	mi_add(ini, r);
+
+	return r;
+}
+
+mi_ini_t* mi_new_comment(mi_ini_t* ini, const char* comment) {
+	mi_ini_t* r = mi_new();
+	r->type	    = MI_COMMENT;
+
+	mi_set_comment(r, comment);
 
 	mi_add(ini, r);
 
@@ -321,7 +349,13 @@ mi_ini_t* mi_parse(const char* data, size_t size) {
 				}
 			}
 			if(strlen(line) > 0) {
-				if(eq >= 0) {
+				if(line[0] == ';') {
+					char* com = mi_strdup_trim(line + 1);
+
+					mi_new_comment(current, com);
+
+					free(com);
+				} else if(eq >= 0) {
 					char* key;
 					char* value;
 					line[eq] = 0;
@@ -350,9 +384,9 @@ mi_ini_t* mi_parse(const char* data, size_t size) {
 mi_ini_t* mi_parse_file(const char* path) {
 	FILE* f = fopen(path, "rb");
 	if(f != NULL) {
-		size_t	       sz;
-		unsigned char* buffer;
-		mi_ini_t*      ini;
+		size_t	  sz;
+		char*	  buffer;
+		mi_ini_t* ini;
 
 		fseek(f, 0, SEEK_END);
 		sz = ftell(f);

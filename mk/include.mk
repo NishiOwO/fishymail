@@ -20,7 +20,7 @@ LDFLAGS = $(C_LDFLAGS) $(U_LDFLAGS) $(P_LDFLAGS)
 LIBS = $(C_LIBS) $(U_LIBS) $(P_LIBS)
 
 OBJS = $(P_OBJS)
-OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o src/stb_ds.o src/util.o src/layout.o src/debug.o src/version.o src/socket.o src/dns.o src/imap.o src/smtp.o src/ini.o
+OBJS += src/main.o src/ui.o src/ui.yy.o src/ui.tab.o src/stb_ds.o src/util.o src/layout.o src/debug.o src/version.o src/socket.o src/dns.o src/imap.o src/smtp.o src/m2ini.o
 
 include lua/Makefile
 
