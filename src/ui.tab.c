@@ -5,7 +5,6 @@
 #define YYBYACC 1
 #define YYMAJOR 2
 #define YYMINOR 0
-#define YYPATCH 20221106
 
 #define YYEMPTY        (-1)
 #define yyclearin      (yychar = YYEMPTY)
@@ -38,12 +37,12 @@ int yywrap(void){
 #ifndef YYSTYPE_IS_DECLARED
 #define YYSTYPE_IS_DECLARED 1
 #line 21 "parser/ui.y"
-typedef union YYSTYPE {
+typedef union {
 	char string[128];
 	int number;
 } YYSTYPE;
 #endif /* !YYSTYPE_IS_DECLARED */
-#line 47 "y.tab.c"
+#line 46 "y.tab.c"
 
 /* compatibility with bison */
 #ifdef YYPARSE_PARAM
@@ -526,7 +525,7 @@ YYPARSE_DECL()
     yyps->save = 0;
 #endif /* YYBTYACC */
     yym = 0;
-    /* yyn is set below */
+    yyn = 0;
     yynerrs = 0;
     yyerrflag = 0;
     yychar = YYEMPTY;
@@ -1039,65 +1038,65 @@ case 7:
 	{
 	BeginPopup(yystack.l_mark[0].string, 0);
 }
-#line 1043 "y.tab.c"
+#line 1 ""
 break;
 case 8:
 #line 40 "parser/ui.y"
 	{
 	BeginPopup(yystack.l_mark[0].string, 1);
 }
-#line 1050 "y.tab.c"
+#line 1 ""
 break;
 case 9:
 #line 43 "parser/ui.y"
 	{
 	MenuItem(yystack.l_mark[0].string);
 }
-#line 1057 "y.tab.c"
+#line 1 ""
 break;
 case 10:
 #line 46 "parser/ui.y"
 	{
 	MenuItemSeparator();
 }
-#line 1064 "y.tab.c"
+#line 1 ""
 break;
 case 11:
 #line 49 "parser/ui.y"
 	{
 	Tree(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
-#line 1071 "y.tab.c"
+#line 1 ""
 break;
 case 12:
 #line 52 "parser/ui.y"
 	{
 	List(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
-#line 1078 "y.tab.c"
+#line 1 ""
 break;
 case 13:
 #line 55 "parser/ui.y"
 	{
 	ReadOnlyText(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
-#line 1085 "y.tab.c"
+#line 1 ""
 break;
 case 14:
 #line 58 "parser/ui.y"
 	{
 	Text(yystack.l_mark[-8].string, yystack.l_mark[-6].number, yystack.l_mark[-4].number, yystack.l_mark[-2].number, yystack.l_mark[0].number);
 }
-#line 1092 "y.tab.c"
+#line 1 ""
 break;
 case 15:
 #line 61 "parser/ui.y"
 	{
 	/* ignore */
 }
-#line 1099 "y.tab.c"
+#line 1 ""
 break;
-#line 1101 "y.tab.c"
+#line 1100 "y.tab.c"
     default:
         break;
     }

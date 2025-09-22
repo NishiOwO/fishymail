@@ -34,8 +34,8 @@ const char* ui_text = \
 	"	MenuItem \"&Version\"\n" \
 	"\n" \
 	"Tree \"TREE\" 0 0 -200 0\n" \
-	"List \"MAIL\" 200 0 0 -100\n" \
-	"ReadOnlyText \"TEXT\" 200 100 0 0\n";
+	"List \"MAIL\" 200 0 0 -200\n" \
+	"ReadOnlyText \"TEXT\" 200 200 0 0\n";
 
 extern void* yy_scan_string(const char* str);
 extern void yy_delete_buffer(void* buffer);

@@ -26,5 +26,5 @@ HelpPopup "&Help"
 	MenuItem "&Version"
 
 Tree "TREE" 0 0 -200 0
-List "MAIL" 200 0 0 -100
-ReadOnlyText "TEXT" 200 100 0 0
+List "MAIL" 200 0 0 -200
+ReadOnlyText "TEXT" 200 200 0 0
